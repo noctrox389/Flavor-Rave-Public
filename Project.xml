@@ -27,7 +27,7 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true"/>
 
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" resizable="false"/>
+	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" allow-shaders="true" require-shaders="true" allow-high-dpi="true"/>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -48,10 +48,10 @@
 	<!-- <define name="SONG_ROLLBACK" /> -->
 
 	<!-- PSYCH ENGINE CUSTOMIZATION -->
-	<define name="MODS_ALLOWED" if="desktop" />
-	<define name="LUA_ALLOWED" if="desktop" />
-	<define name="VIDEOS_ALLOWED" if="desktop" unless="32bits"/>
-	<define name="CRASH_HANDLER" if="desktop" unless="debug" />
+	<define name="MODS_ALLOWED" if="desktop || android" />
+	<define name="LUA_ALLOWED" if="desktop || android" />
+	<define name="VIDEOS_ALLOWED"/>
+	<define name="CRASH_HANDLER"/>
 
 	<!-- Requires Windows 11 SDK (10.0.22000.0) and up -->
 	<!--    Please just use -DNO_W11_CORNERS instead   -->
@@ -111,6 +111,7 @@
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED"/>
 	<haxelib name="discord_rpc" if="desktop"/>
 	<haxelib name="hxcpp-debug-server" if="debug"/>
+	<haxelib name="extension-androidtools" if="android" />
 
 	<!-- Visualizer specific haxelibs.-->
 	<haxelib name="funkin.vis" />
@@ -164,6 +165,9 @@
 	<haxedef name="HXCPP_CHECK_POINTER" if="CRASH_HANDLER" />
 	<haxedef name="HXCPP_STACK_LINE" if="CRASH_HANDLER" />
 
+	<!--Avoid memory leaks with for loops in HScript-->
+ 	<haxedef name="loop_unroll_max_cost" value="25" />
+ 	<haxedef name="DISABLED_MACRO_SUPERLATIVE" if="mobile" />
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!-- Swiping this from Funkin v0.3.2 -->
