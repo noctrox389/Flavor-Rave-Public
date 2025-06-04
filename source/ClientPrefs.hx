@@ -7,6 +7,12 @@ import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 
 class ClientPrefs {
+	public static var screensaver:Bool = false;
+	public static var controlsAlpha:Float = 0.7;
+	public static var wideScreen:Bool = false;
+	public static var hideHitboxHints:Bool = false;
+	public static var ExtraHints:Bool = false;
+	public static var keyboardEnabled:Bool = false;
 	public static var downScroll:Bool = false;
 	public static var middleScroll:Bool = false;
 	public static var opponentStrums:Bool = true;
