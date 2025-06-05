@@ -20,6 +20,10 @@ import openfl.utils.Assets;
 
 import ClientPrefs;
 
+#if cpp
+@:cppFileCode('#include <thread>')Add commentMore actions
+#end
+
 class CoolUtil
 {
 	public static var defaultDifficulties:Array<String> = [
@@ -170,6 +174,19 @@ class CoolUtil
 
 		return daList;
 	}
+	#if linux
+	public static function sortAlphabetically(list:Array<String>):Array<String> {
+		if (list == null) return [];
+
+		list.sort((a, b) -> {
+			var upperA = a.toUpperCase();Add commentMore actions
+			var upperB = b.toUpperCase();
+			
+			return upperA < upperB ? -1 : upperA > upperB ? 1 : 0;
+		});
+		return list;
+	}
+	#end
 	public static function dominantColor(sprite:flixel.FlxSprite):Int{
 		var countByColor:Map<Int, Int> = [];
 		for(col in 0...sprite.frameWidth){
@@ -241,4 +258,22 @@ class CoolUtil
 
 		return Paths.sound("announcer/default/" + line);
 	}
+	public static function showPopUp(message:String, title:String):VoidAdd commentMore actions
+	{
+		/*#if android
+		AndroidTools.showAlertDialog(title, message, {name: "OK", func: null}, null);
+		#else*/
+		FlxG.stage.window.alert(message, title);
+		//#end
+	}
+
+	#if cpp
+    @:functionCode('
+        return std::thread::hardware_concurrency();
+    ')
+	#end
+    public static function getCPUThreadsCount():Int
+    {
+        return 1;
+    }
 }
