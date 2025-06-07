@@ -22,6 +22,8 @@ import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
 #end
+import lime.app.Application;
+import lime.system.System as LimeSystem;
 import mobile.states.CopyState;
 
 #if linux
