@@ -179,7 +179,7 @@ class CoolUtil
 		if (list == null) return [];
 
 		list.sort((a, b) -> {
-			var upperA = a.toUpperCase();Add commentMore actions
+			var upperA = a.toUpperCase();
 			var upperB = b.toUpperCase();
 			
 			return upperA < upperB ? -1 : upperA > upperB ? 1 : 0;
@@ -258,7 +258,7 @@ class CoolUtil
 
 		return Paths.sound("announcer/default/" + line);
 	}
-	public static function showPopUp(message:String, title:String):VoidAdd commentMore actions
+	public static function showPopUp(message:String, title:String):Void
 	{
 		/*#if android
 		AndroidTools.showAlertDialog(title, message, {name: "OK", func: null}, null);
