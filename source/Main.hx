@@ -22,6 +22,7 @@ import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
 #end
+import mobile.states.CopyState;
 
 #if linux
 @:cppInclude('./external/gamemode_client.h')
