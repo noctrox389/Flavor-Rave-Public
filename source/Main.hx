@@ -168,7 +168,7 @@ class Main extends Sprite
 		#end
 		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
 
-		LimeSystem.allowScreenTimeout = ClientPrefs.data.screensaver; 		
+		LimeSystem.allowScreenTimeout = ClientPrefs.screensaver; 		
  		//FlxG.scaleMode = new MobileScaleMode(); idk if I need this yet
 	}
 
