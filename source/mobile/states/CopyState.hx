@@ -9,6 +9,9 @@ import haxe.io.Path;
 import flixel.ui.FlxBar;
 import flixel.ui.FlxBar.FlxBarFillDirection;
 import lime.system.ThreadPool;
+import sys.FileSystem;
+import sys.io.File;
+import sys.io.Process;
 
 /**
  * ...
@@ -40,7 +43,7 @@ class CopyState extends MusicBeatState
 		checkExistingFiles();
 		if (maxLoopTimes <= 0)
 		{
-			FlxG.switchState(new Splash());
+			FlxG.switchState(new TitleState());
 			return;
 		}
 
@@ -97,7 +100,7 @@ class CopyState extends MusicBeatState
 				
 				FlxG.sound.play(Paths.sound('confirmMenu')).onComplete = () ->
 				{
-					FlxG.switchState(new Splash());
+					FlxG.switchState(new TitleState());
 				};
 		
 				canUpdate = false;
