@@ -37,7 +37,9 @@
 		},
 		{
 			"name": "hxcpp",
-			"type": "haxelib"
+			"type": "haxelib",
+			"ref": "master",
+			"url": "https://github.com/CodenameCrew/cne-hxcpp.git"
 		},
 		{
 			"name": "hxjsonast",
