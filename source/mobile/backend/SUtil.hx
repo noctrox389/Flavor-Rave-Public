@@ -3,6 +3,9 @@ package mobile.backend;
 /**
  * A storage class for mobile.
  */
+import sys.FileSystem;
+import sys.io.File;
+import sys.io.Process;
 class SUtil
 {
 	#if sys
