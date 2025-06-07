@@ -19,7 +19,6 @@ import Paths;
  import extension.androidtools.Tools as AndroidTools;
  import extension.androidtools.os.Build.VERSION as AndroidVersion;
  import extension.androidtools.os.Build.VERSION_CODES as AndroidVersionCode;
- import android.os.BatteryManager as AndroidBatteryManager;
  #end
  
 //Flixel
