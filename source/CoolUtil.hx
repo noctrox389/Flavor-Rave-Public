@@ -21,7 +21,7 @@ import openfl.utils.Assets;
 import ClientPrefs;
 
 #if cpp
-@:cppFileCode('#include <thread>')Add commentMore actions
+@:cppFileCode('#include <thread>')
 #end
 
 class CoolUtil
