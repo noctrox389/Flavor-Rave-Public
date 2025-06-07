@@ -89,6 +89,14 @@ class Main extends Sprite
 		instance = this;
 
 		super();
+		
+		#if mobile
+ 		#if android
+ 		SUtil.requestPermissions();
+ 		#end
+ 		Sys.setCwd(SUtil.getStorageDirectory());
+ 		#end
+		mobile.backend.CrashHandler.init();
 
 		if (stage != null)
 		{
@@ -120,7 +128,7 @@ class Main extends Sprite
 	private function setupGame():Void
 	{
 		ClientPrefs.loadDefaultKeys();
-		var game:FlxGame = new FlxGame(gameWidth, gameHeight, initialState, framerate, framerate, skipSplash, startFullscreen);
+		var game:FlxGame = new FlxGame(gameWidth, gameHeight,#if (mobile && MODS_ALLOWED) CopyState.checkExistingFiles() ? initialState : CopyState #else initialState #end, framerate, framerate, skipSplash, startFullscreen);
 
 #if SOUNDTRAY
 		// FlxG.game._customSoundTray wants just the class, it calls new from
@@ -132,7 +140,6 @@ class Main extends Sprite
 
 		addChild(game);
 
-		#if !mobile
 		fpsVar = new FPSDisplay(10, 3, 0xFFFFFF);
 		addChild(fpsVar);
 		Lib.current.stage.align = "tl";
@@ -140,7 +147,6 @@ class Main extends Sprite
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
-		#end
 
 		#if html5
 		FlxG.autoPause = false;
@@ -157,6 +163,10 @@ class Main extends Sprite
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 		#end
+		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
+
+		LimeSystem.allowScreenTimeout = ClientPrefs.data.screensaver; 		
+ 		//FlxG.scaleMode = new MobileScaleMode(); idk if I need this yet
 	}
 
 	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
