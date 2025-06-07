@@ -12,7 +12,7 @@ class MobileScaleMode extends BaseScaleMode
 
 	override function updateGameSize(Width:Int, Height:Int):Void
 	{
-		if (ClientPrefs.data.wideScreen && allowWideScreen)
+		if (ClientPrefs.wideScreen && allowWideScreen)
 		{
 			super.updateGameSize(Width, Height);
 		}
