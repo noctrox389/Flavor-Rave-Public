@@ -14,7 +14,7 @@ import openfl.events.Event;
 using StringTools;
 //crash handler stuff
 #if CRASH_HANDLER
-import Discord.DiscordClient;
+//import Discord.DiscordClient; No
 import haxe.CallStack;
 import haxe.io.Path;
 import openfl.events.UncaughtErrorEvent;
@@ -212,7 +212,7 @@ class Main extends Sprite
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
 		FlxG.stage.application.window.alert(errMsg, "Error!");
-		DiscordClient.shutdown();
+		//DiscordClient.shutdown();
 		Sys.exit(1);
 	}
 	#end
