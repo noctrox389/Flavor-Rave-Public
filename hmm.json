@@ -37,9 +37,8 @@
 		},
 		{
 			"name": "hxcpp",
-			"type": "git",
-			"ref": "master",
-			"url": "https://github.com/HaxeFoundation/hxcpp.git"
+			"type": "haxelib",
+			"version": "4.3.2"
 		},
 		{
 			"name": "hxjsonast",
