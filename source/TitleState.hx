@@ -46,6 +46,7 @@ import sys.io.File;
 
 class TitleState extends MusicBeatState
 {
+	private var video:VideoHandler;
 	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
 	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
 	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
@@ -294,7 +295,7 @@ class TitleState extends MusicBeatState
 		if (!initialized)
 		{
 			#if VIDEOS_ALLOWED
-			var video:VideoHandler = new VideoHandler();
+			video = new VideoHandler();
 			video.canSkip = true;
 			video.skipKeys = [FlxKey.ESCAPE, FlxKey.ENTER];
 			video.onEndReached.add(function()
@@ -358,6 +359,20 @@ class TitleState extends MusicBeatState
 
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
+		#if mobile
+	+        if (video != null && video.canSkip)
+	+        {
+	+            for (touch in FlxG.touches.list)
+	+            {
+	+                if (touch.justPressed)
+	+                {
+	+                    video.canSkip = false;
+	+                    video.onEndReached.dispatch();
+	+                    video = null;
+	+                    break;
+	+                }
+	+            }
+	+        }
 
 		var pressedEnter:Bool = canInput && (FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed && ClientPrefs.menuMouse);
 
