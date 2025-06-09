@@ -224,15 +224,20 @@ class Paths
 		var file:Sound = returnSound('music', key, library);
 		return file;
 	}
-	inline static public function voices(song:String, suffix:String = ""):Any
+	inline static public function voices(song:String, postfix:String = null):Any
 	{
-		var suffixPath:String = suffix != "" ? '-$suffix' : "";
-		return returnSound('songs', '${formatToSongPath(song)}/Voices$suffixPath');
+		var songKey:String = '${formatToSongPath(song)}/Voices';
+		if(postfix != null) songKey += '-' + postfix;
+		//trace('songKey test: $songKey');
+		var voices = returnSound(null, songKey, 'songs');
+		return voices;
 	}
 
 	inline static public function inst(song:String):Any
 	{
-		return returnSound('songs', '${formatToSongPath(song)}/Inst');
+		var songKey:String = '${formatToSongPath(song)}/Inst';
+		var inst = returnSound(null, songKey, 'songs');
+		return inst;
 	}
 
 	inline static public function image(key:String, ?library:String, ?textureCompression:Bool, ?posInfos:haxe.PosInfos):FlxGraphic
