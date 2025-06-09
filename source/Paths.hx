@@ -208,9 +208,10 @@ class Paths
 		return 'assets/videos/$key.$extension';
 	}
 
-	static public function sound(key:String, ?async:Bool = false, ?library:String):Sound
+	static public function sound(key:String, ?library:String):Sound
 	{
-		return returnSound('sounds', key, async, library);
+		var sound:Sound = returnSound('sounds', key, library);
+		return sound;
 	}
 
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
@@ -220,9 +221,9 @@ class Paths
 
 	inline static public function music(key:String, ?library:String):Sound
 	{
-		return returnSound('music', key, false, library);
+		var file:Sound = returnSound('music', key, library);
+		return file;
 	}
-
 	inline static public function voices(song:String, suffix:String = ""):Any
 	{
 		var suffixPath:String = suffix != "" ? '-$suffix' : "";
