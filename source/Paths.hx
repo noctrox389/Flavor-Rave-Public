@@ -208,7 +208,7 @@ class Paths
 		return 'assets/videos/$key.$extension';
 	}
 
-	static public function sound(key:String, ?library:String):Sound
+	static public function sound(key:String, ?async:Bool = false, ?library:String):Sound
 	{
 		var sound:Sound = returnSound('sounds', key, library);
 		return sound;
