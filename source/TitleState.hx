@@ -360,19 +360,19 @@ class TitleState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 		#if mobile
-	+        if (video != null && video.canSkip)
-	+        {
-	+            for (touch in FlxG.touches.list)
-	+            {
-	+                if (touch.justPressed)
-	+                {
-	+                    video.canSkip = false;
-	+                    video.onEndReached.dispatch();
-	+                    video = null;
-	+                    break;
-	+                }
-	+            }
-	+        }
+	        if (video != null && video.canSkip)
+	        {
+	            for (touch in FlxG.touches.list)
+	            {
+	                if (touch.justPressed)
+	                {
+	                    video.canSkip = false;
+	                    video.onEndReached.dispatch();
+	                    video = null;
+	                    break;
+	                }
+	            }
+	        }
 		#end
 
 		var pressedEnter:Bool = canInput && (FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed && ClientPrefs.menuMouse);
