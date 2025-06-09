@@ -403,20 +403,27 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		trace("Hello! You've started Playstate!");
 		FlxG.mouse.visible = false;
 
+		trace("No more mouse, lets go and set some stuff");
 		playedTitleCard = false; // fixes crashes when ending a song. lol.
 
 		//trace('Playback Rate: ' + playbackRate);
+		trace("clearing stored memory");
 		Paths.clearStoredMemory();
 
 		// for lua
+		trace("setting the instance for lua");
 		instance = this;
 
+		trace("setting the debug keys");
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
+		trace("resetting songname in pausesubstate to default");
 		PauseSubState.songName = null; //Reset to default
 
+		trace("setting keys and control arrays(i dont think this is the problem)");
 		keysArray = [
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_left')),
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_down')),
@@ -431,6 +438,7 @@ class PlayState extends MusicBeatState
 			'NOTE_RIGHT'
 		];
 
+		trace("Setting up ratings!(I will be a little more lax on the tracelines from here cos im honestly doubting the crash is from playstate this time, but i could be wrong");
 		//Ratings
 		ratingsData.push(new Rating('marvelous')); //default rating
 
@@ -466,17 +474,21 @@ class PlayState extends MusicBeatState
 		rating.health = -0.03;
 		ratingsData.push(rating);
 
+		trace("popup ratings?");
 		ratingPop = new PopupRating();
 
+		trace("Just the two of us");
 		// For the "Just the Two of Us" achievement
 		for (i in 0...keysArray.length)
 		{
 			keysPressed.push(false);
 		}
 
+		trace("stopping music or something");
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
+		trace("Setting gameplay settings(i'll be a little upset if the crash happens here)");
 		// Gameplay settings
 		playbackRate = ClientPrefs.getGameplaySetting('songspeed', 1);
 		healthGain = ClientPrefs.getGameplaySetting('healthgain', 1);
@@ -489,10 +501,12 @@ class PlayState extends MusicBeatState
 		opponentPlay = ClientPrefs.getGameplaySetting('opponentplay', false);
 		strumlaneAlpha = ClientPrefs.laneAlpha;
 
+		trace("Something about playback and practice rate");
 
 		if (practiceMode && practiceRate != 1.0)
 			playbackRate = practiceRate;
 
+		trace("Setting up cameras(the bug better not be here)");
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camEffect = new FlxCamera();
@@ -502,68 +516,97 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 
+		trace("first paragraph of cams done");
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camEffect, false);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
+		trace("group music notes");
 		grpMusicNotes = new FlxTypedGroup<FlxSprite>();
 		cachedNotes = [];
 
+		trace("setting the default target");
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		FRFadeTransition.nextCamera = camOther;
 
+		trace("setting persistents to true");
 		persistentUpdate = true;
 		persistentDraw = true;
+
+		trace("ooo this is interesting, looks like the default song will always be cranberry pop");
 
 		if (SONG == null)
 			SONG = Song.loadFromJson('cranberry-pop', 'cranberry-pop');
 
+		trace("conductor stuff");
 		Conductor.mapBPMChanges(SONG);
 		Conductor.bpm = SONG.bpm;
 
+		trace("its about to read metadata, maybe this is it");
 		metadata = null;
 
+		trace("time to read");
 		// read the metadata
 		try
 		{
+			trace("first thing, rawjson is null");
 			var rawJson = null;
 		
 			#if MODS_ALLOWED
+			trace("setting up moddyfile");
 			var moddyFile:String = Paths.modsJson(SONG.id + '/meta');
+			trace("ya know what lets also trace it" + moddyFile);
 
 			if (FileSystem.exists(moddyFile))
 			{
+				trace("ok it exists, lets grab it!");
 				rawJson = File.getContent(moddyFile).trim();
+				trace("got it!");
 			}
 			#end
 
+			trace("stuff to do with rawjson");
 			if (rawJson == null)
 			{
 				#if sys
+				trace("grabbing for sys");
 				rawJson = File.getContent(Paths.json(SONG.id + '/meta')).trim();
+				trace("its at" + rawJson);
 				#else
+				trace("grabbing for assets");
 				rawJson = Assets.getText(Paths.json(SONG.id + '/meta')).trim();
+				trace("its at" + rawJson);
 				#end
 			}
 
+			trace("lol it ends with a curly bracket lets do something bout that");
 			while (!rawJson.endsWith("}"))
 				rawJson = rawJson.substr(0, rawJson.length - 1);
 
+			trace("i cast upon metadata my rawjson!");
 			metadata = cast Json.parse(rawJson);
+			trace("lets set metadata to true");
 			hasMetadata = true;
+			trace("nice");
 		}
 		catch (e)
 		{
+			trace("Huh? an error? Honestly this shouldnt be the problem im looking for cos i never saw the trace below");
 			hasMetadata = false;
 			trace('[${SONG.song}] Metadata either doesn\'t exist or contains an error!');
 		}
 
+		trace("getting curweek");
 		curWeek = WeekData.getCurrentWeek();
+		trace("getting cursong");
 		curSong = hasMetadata ? metadata.song.name : SONG.song;
+		trace("getting titlecardstep");
 		titleCardStep = (hasMetadata && metadata.song.titleCardStep != null ? metadata.song.titleCardStep : 1);
+		trace("setting arrow skin");
 		songArrowSkin = SONG.arrowSkin;
+		trace("ok i will stop traces here, HOPEFULLY we catch the error before then else i gotta add more here later");
 
 
 		#if discord_rpc
@@ -589,6 +632,7 @@ class PlayState extends MusicBeatState
 		}
 		SONG.stage = curStage;
 
+		trace("Ok one more trace first, we're getting stage data");
 		var stageData:StageFile = StageData.getStageFile(curStage);
 		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
 			stageData = {
@@ -654,6 +698,7 @@ class PlayState extends MusicBeatState
 		if(stageData.camera_boundaries != null)
 			cameraBoundaries = stageData.camera_boundaries;
 
+		trace("Jk another trace, the suspicious thing was how last time it started around these parts i think");
 		boyfriendGroup = new FlxSpriteGroup(BF_X, BF_Y);
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
