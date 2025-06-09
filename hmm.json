@@ -7,8 +7,10 @@
 		},
 		{
 			"name": "lime",
-			"type": "haxelib",
-			"version": "8.1.1"
+			"type": "git",
+            		"dir": null,   
+            		"ref": "main",
+            		"url": "https://github.com/kittycathy233/lime"
 		},
 		{
 			"name": "openfl",
@@ -38,8 +40,9 @@
 		{
 			"name": "hxcpp",
 			"type": "git",
-			"ref": "master",
-			"url": "https://github.com/beihu235/hxcpp.git"
+            		"dir": null,
+            		"ref": "main",
+            		"url": "https://github.com/kittycathy233/hxcpp"
 		},
 		{
 			"name": "hxjsonast",
