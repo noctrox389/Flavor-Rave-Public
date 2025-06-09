@@ -83,7 +83,7 @@
 	<assets path="assets/shared"        library="shared"                           />
 	<assets path="assets/tbd"           library="tbd"                              />
 	
-	<assets path="mods" embed="false" type="template" if="MODS_ALLOWED"/>
+	<assets path="mods" embed="false" if="MODS_ALLOWED"/>
 
 	<!-- OpenAL configuration file -->
 	<assets path="alsoft.ini" if="desktop" />
