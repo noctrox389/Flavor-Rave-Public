@@ -373,6 +373,7 @@ class TitleState extends MusicBeatState
 	+                }
 	+            }
 	+        }
+		#end
 
 		var pressedEnter:Bool = canInput && (FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed && ClientPrefs.menuMouse);
 
