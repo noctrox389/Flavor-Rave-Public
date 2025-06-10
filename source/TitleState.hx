@@ -369,7 +369,7 @@ class TitleState extends MusicBeatState
 	                    video.canSkip = false;
 	                    video.onEndReached.dispatch();
 	                    video = null;
-	                    break;
+	                    return; 
 	                }
 	            }
 	        }
@@ -506,6 +506,9 @@ class TitleState extends MusicBeatState
 
 	function skipIntro():Void
 	{
+		if (skippedIntro) return;
+    		skippedIntro = true;
+		
 		if (!initialized)
 		{
 			if (firstStart) FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
