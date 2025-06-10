@@ -799,13 +799,16 @@ class PlayState extends MusicBeatState
 				doPush = true;
 				trace("doPush has been set to true");
 			}
+			luaFile = #if mobile Sys.getCwd() + #end luaFile;
+			trace("Let's double confirm luaFile: " + luaFile);
 		}
 
 		trace("Ok, now let's push it to the luaarray");
-		if(doPush)
+		if(doPush) {
 			trace("Here we go");
 			luaArray.push(new FunkinLua(luaFile));
 			trace("Hope that worked");
+		}
 		#end
 
 		trace("i didnt feel like putting a trace line between this and the last one, but now for gfversion");
