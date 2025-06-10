@@ -783,18 +783,29 @@ class PlayState extends MusicBeatState
 		#if (MODS_ALLOWED && LUA_ALLOWED)
 		var doPush:Bool = false;
 		var luaFile:String = 'stages/' + curStage + '.lua';
-		if(FileSystem.exists(Paths.modFolders(luaFile))) {
-			luaFile = Paths.modFolders(luaFile);
+		trace("What's luafile: " + luaFile);
+		var stringExister:String = Paths.modFolders(luaFile);
+		trace("Here is the stringExister:" + stringExister);
+		if(FileSystem.exists(stringExister)) {
+			luaFile = stringExister;
+			trace("Let's reconfirm" + luaFile);
 			doPush = true;
+			trace("doPush has been set to true");
 		} else {
-			luaFile = #if mobile Sys.getCwd() + #end Paths.getPreloadPath(luaFile);
+			luaFile = Paths.getPreloadPath(luaFile);
+			trace("Oh, preload confirmation" + luaFile);
 			if(FileSystem.exists(luaFile)) {
+				trace("About to to doPush for preload");
 				doPush = true;
+				trace("doPush has been set to true");
 			}
 		}
 
+		trace("Ok, now let's push it to the luaarray");
 		if(doPush)
+			trace("Here we go");
 			luaArray.push(new FunkinLua(luaFile));
+			trace("Hope that worked");
 		#end
 
 		trace("i didnt feel like putting a trace line between this and the last one, but now for gfversion");
