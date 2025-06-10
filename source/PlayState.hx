@@ -2207,7 +2207,9 @@ class PlayState extends MusicBeatState
 
 		trace("Ok done, now part 2!");
 		var songData = SONG;
+		trace("done");
 		Conductor.bpm = songData.bpm;
+		trace("done again");
 
 		if (hasMetadata && metadata.control != null)
 		{
@@ -2218,6 +2220,7 @@ class PlayState extends MusicBeatState
 			disableHealth = metadata.control.disableHealth;
 		}
 
+		trace("done again again");
 		if (SONG.needsVoices)
 		{
 			try
@@ -2237,26 +2240,33 @@ class PlayState extends MusicBeatState
 			vocalTracks.set("", new FlxSound());
 		}
 
+		trace("set vocals i think?");
 		for (vocal in vocalTracks)
 		{
 			vocal.pitch = playbackRate;
 			FlxG.sound.list.add(vocal);
 		}
 
+		trace("again");
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(SONG.song)));
 
+		trace("adding notes");
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
+		trace("let's see the notedata");
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
 		noteData = songData.notes;
 
+		trace("If that worked we're at playercounter and dabeats now");
+
 		var playerCounter:Int = 0;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
+		trace("is this loading events?");
 		var file:String = Paths.json(SONG.id + '/events');
 		#if MODS_ALLOWED
 		if (FileSystem.exists(Paths.modsJson(SONG.id + '/events')) || FileSystem.exists(file)) {
@@ -2282,6 +2292,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		trace("speaker chart is insane");
 		//Speaker Chart
 		var file:String = Paths.json(SONG.id + '/speaker');
 		#if MODS_ALLOWED
@@ -2384,9 +2395,11 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		trace("what are these");
 		var prevRandBF:Int = -1;
 		var prevRandOpp:Int = -1;
 
+		trace("more stuff");
 		for (section in noteData)
 		{
 			for (songNotes in section.sectionNotes)
@@ -2483,6 +2496,7 @@ class PlayState extends MusicBeatState
 			}
 			daBeats += 1;
 		}
+		trace("event notes");
 		for (event in songData.events) //Event Notes
 		{
 			for (i in 0...event[1].length)
@@ -2503,6 +2517,7 @@ class PlayState extends MusicBeatState
 		// trace(unspawnNotes.length);
 		// playerCounter += 1;
 
+		trace("unspawn notes and stuff");
 		unspawnNotes.sort(sortByShit);
 		if(eventNotes.length > 1) { //No need to sort if there's a single one or none at all
 			eventNotes.sort(sortByTime);
@@ -2510,9 +2525,13 @@ class PlayState extends MusicBeatState
 		if(speakerNotes.length > 1) { 
 			speakerNotes.sort(sortByShit);
 		}
+		trace("checking event note");
 		checkEventNote();
+		trace("now speaker notes!");
 		checkSpeakerNote();
+		trace("now this should work");
 		generatedMusic = true;
+		trace("and we done!");
 	}
 
 	function eventPushed(event:EventNote) {
