@@ -35,9 +35,10 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		rpcTitle = 'Gameplay Settings Menu'; //for Discord Rich Presence
 
 		// TODO: can we port over the controller code from psych experimental
-		var option:Option = new Option('Controller Mode',
-			'Check this if you want to play with\na controller instead of using your Keyboard.',
-			'controllerMode',
+		//Nah ima make it an option to play with a keyboard instead LOL
+		var option:Option = new Option('Keyboard Enabled',
+			'Check this if you want to play with\na keyboard on the Android Port',
+			'keyboardEnabled',
 			'bool',
 			false);
 		addOption(option);
