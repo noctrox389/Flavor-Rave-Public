@@ -50,6 +50,9 @@ class CharaSelect extends MusicBeatSubstate
 
 	public function new(state:String = 'story', players:Array<String>, songorweekName:String, recommended:Int = 0, oneplayer:Bool = false)
 	{
+		#if mobile
+		addVirtualPad(LEFT_RIGHT,A_B);
+		#end
 		//Honestly making a 1p version of this is janky and I'm currently not in the best of moods. Will prob rewrite later
 		super();
 
@@ -244,7 +247,7 @@ class CharaSelect extends MusicBeatSubstate
 
 		if (canpressbuttons)
 		{
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				canpressbuttons = false;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -263,10 +266,10 @@ class CharaSelect extends MusicBeatSubstate
 	
 			if (!is1Player)
 			{
-				if (controls.UI_LEFT_P) changeItem(-1);
-				if (controls.UI_RIGHT_P) changeItem(1);
+				if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end) changeItem(-1);
+				if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end) changeItem(1);
 			}
-			if (controls.ACCEPT) totheSong();
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end) totheSong();
 
 			if(ClientPrefs.menuMouse)
 			{
