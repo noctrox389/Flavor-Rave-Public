@@ -42,6 +42,30 @@ class MusicBeatSubstate extends FlxSubState
 		super.update(elapsed);
 	}
 
+	#if mobile
+ 	var _virtualpad:FlxVirtualPad;
+ 
+ 	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+ 		_virtualpad = new FlxVirtualPad(DPad, Action);
+ 		add(_virtualpad);
+ 	}
+ 
+     	public function addVirtualPadCamera() {
+ 		var virtualpadcam = new flixel.FlxCamera();
+ 		virtualpadcam.bgColor.alpha = 0;
+ 		FlxG.cameras.add(virtualpadcam, false);
+ 		_virtualpad.cameras = [virtualpadcam];
+     	}
+ 
+ 	public function removeVirtualPad() {
+ 		remove(_virtualpad);
+ 	}
+ 	public function closeSs() {
+ 		FlxTransitionableState.skipNextTransOut = true;
+ 		FlxG.resetState();
+ 	}
+ 	#end
+
 	override function destroy():Void
 	{
 		cancelTweens();
