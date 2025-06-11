@@ -157,7 +157,7 @@ class DialogueBoxDreamcast extends FlxSpriteGroup
 						closeDialogue();
 				}
 			}
-			else if (PlayerSettings.player1.controls.BACK)
+			else if (PlayerSettings.player1.controls.BACK #if android || FlxG.android.justReleased.BACK #end)
 			{
 				closeDialogue();
 			}
