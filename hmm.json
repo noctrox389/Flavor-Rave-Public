@@ -86,7 +86,7 @@
             "name": "linc_luajit",
             "type": "git",
             "dir": null,
-            "url": "https://github.com/superpowers04/linc_luajit.git"
+            "url": "https://github.com/kittycathy233/linc_luajit.git"
         },
 		{
     		"name": "funkin.vis",
