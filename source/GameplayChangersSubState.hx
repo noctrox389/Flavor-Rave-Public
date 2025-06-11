@@ -65,6 +65,9 @@ class GameplayChangersSubState extends MusicBeatSubstate
 			acceptInput = true;
 		});
 
+		#if mobile
+		addVirtualPad(FULL,A_B_X);
+		#end
 		changeSelection();
 	}
 
@@ -74,24 +77,24 @@ class GameplayChangersSubState extends MusicBeatSubstate
 
 		if (acceptInput)
 		{
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				acceptInput = false;
 				exitState();
 			}
 
-			if (controls.UI_UP_P)
+			if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 				changeSelection(-1);
-			if (controls.UI_DOWN_P)
+			if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 				changeSelection(1);
 
 			// LEFT, RIGHT
-			if (FlxG.keys.pressed.SHIFT ? controls.UI_LEFT : controls.UI_LEFT_P)
+			if (FlxG.keys.pressed.SHIFT ? (controls.UI_LEFT #if mobile || _virtualpad.buttonLeft.pressed #end) : (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end))
 				changeModifier(-1);
-			if (FlxG.keys.pressed.SHIFT ? controls.UI_RIGHT : controls.UI_RIGHT_P)
+			if (FlxG.keys.pressed.SHIFT ? (controls.UI_RIGHT #if mobile || _virtualpad.buttonRight.pressed #end) : (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end))
 				changeModifier(1);
 
-			if (FlxG.keys.justPressed.R)
+			if (FlxG.keys.justPressed.R #if mobile || _virtualpad.buttonX.pressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				setValue(modifierData[curSelected][5]);
@@ -116,7 +119,11 @@ class GameplayChangersSubState extends MusicBeatSubstate
 
 		new FlxTimer().start(0.5, function(tmr:FlxTimer)
 		{
+			#if mobile
+			closeSs();
+			#else
 			close();
+                        #end
 		});
 	}
 
