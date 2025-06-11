@@ -116,6 +116,10 @@ class DialogueBoxDreamcast extends FlxSpriteGroup
 
 	override function update(elapsed:Float)
 	{
+		var justTouched:Bool = false;
+ 		for (touch in FlxG.touches.list)
+ 			if (touch.justPressed)
+ 				justTouched = true;
 		super.update(elapsed);
 		#if FORCE_DEBUG_VERSION
 		if (FlxG.keys.pressed.CONTROL && (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L))
@@ -136,7 +140,7 @@ class DialogueBoxDreamcast extends FlxSpriteGroup
 
 		if (allowInput)
 		{
-			if (PlayerSettings.player1.controls.ACCEPT)
+			if (PlayerSettings.player1.controls.ACCEPT || justTouched)
 			{
 				if (!dialogueEnded)
 				{
