@@ -324,17 +324,13 @@ class StoryMenuState extends MusicBeatState
 
 	public function selectWeek()
 	{
-		trace("Hello, this is the storymenu and I will load your week");
 		if (!WeekData.weekIsLocked(loadedWeeks[curWeek].fileName))
 		{
-			trace("now I will make you STOP SPAMMING");
 			if (stopspamming == false)
 			{
 				stopspamming = true;
 			}
-			trace("ok now no spam");
 
-			trace("Loading the supposed workaround for the song array here");
 			// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
 			var songArray:Array<String> = [];
 			var leWeek:Array<Dynamic> = loadedWeeks[curWeek].songs;
@@ -342,68 +338,43 @@ class StoryMenuState extends MusicBeatState
 				songArray.push(leWeek[i][0]);
 			}
 
-			trace("Ok whatever you say");
 			// Nevermind that's stupid lmao
 			PlayState.storyPlaylist = songArray;
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
-			trace("Getting coolutil difficulty");
 			var diffic = CoolUtil.getDifficultyFilePath(curDifficulty);
 			if(diffic == null) diffic = '';
 
-			trace("Setting playstate difficulty to curdifficulty");
 			PlayState.storyDifficulty = curDifficulty;
 
-			trace("Now loading other playstate stuff starting with song, i'll do a trace for every line cos i need to pinpoint the issue here, first song");
 			PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + diffic, PlayState.storyPlaylist[0].toLowerCase());
-			trace("Now campaign score");
 			PlayState.campaignScore = 0;
-			trace("Now campaign hits");
 			PlayState.campaignHits = 0;
-			trace("Now campaign misses");
 			PlayState.campaignMisses = 0;
-			trace("Now campaign accuracy");
 			PlayState.campaignAccuracy = 0.00;
-			trace("Now campaign totalplayed");
 			PlayState.campaignTotalPlayed = 0;
-			trace("Now campaign totalnoteshit");
 			PlayState.campaignTotalNotesHit = 0.0;
 
-			trace("Now campaign marvelous");
 			PlayState.campaignMarvelous = 0;
-			trace("Now campaign sicks");
 			PlayState.campaignSicks = 0;
-			trace("Now campaign goods");
 			PlayState.campaignGoods = 0;
-			trace("Now campaign bads");
 			PlayState.campaignBads = 0;
-			trace("Ok i dont think its any of this but lets continue");
 			PlayState.campaignShits = 0;
-			trace("Now campaign earlys");
 			PlayState.campaignEarlys = 0;
-			trace("Now campaign lates");
 			PlayState.campaignLates = 0;
 
-			trace("Now lemme restartscore");
 			PlayState.restartScore = 0;
-			trace("and then your hits");
 			PlayState.restartHits = 0;
-			trace("misses");
 			PlayState.restartMisses = 0;
-			trace("and accuracy");
 			PlayState.restartAccuracy = 0.00;
 
-			trace("Ok, i think this is the part where it loads to playstate now, playstate might be the true culprit but i hope not!!");
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
-				trace("here we goooo");
 				LoadingState.loadAndSwitchState(new PlayState(), true);
-				trace("destroying freeplay vocals too ig");
 				FreeplayState.destroyFreeplayVocals();
 			});
 		} else {
-			trace("Oh, cancelled");
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 		}
 	}
