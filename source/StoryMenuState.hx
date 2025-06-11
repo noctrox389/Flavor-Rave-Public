@@ -190,6 +190,9 @@ class StoryMenuState extends MusicBeatState
 
 		changeWeek();
 
+		#if mobile
+		addVirtualPad(FULL,A_B_C_X);
+		#end
 		super.create();
 	}
 
@@ -201,12 +204,12 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
-		var leftP = controls.UI_LEFT_P;
-		var rightP = controls.UI_RIGHT_P;
-		var ctrl = FlxG.keys.justPressed.CONTROL;
-		var mbutt = FlxG.keys.justPressed.M;
+		var upP = controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end;
+		var downP = controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end;
+		var leftP = controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end;
+		var rightP = controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end;
+		var ctrl = FlxG.keys.justPressed.CONTROL #if mobile || _virtualpad.buttonC.justPressed #end;
+		var mbutt = FlxG.keys.justPressed.M #if mobile || _virtualpad.buttonX.justPressed #end;
 		if (!selectedWeek)
 		{
 			if (upP)
@@ -237,7 +240,7 @@ class StoryMenuState extends MusicBeatState
 				OptionsState.whichState = 'storymenu';
 				LoadingState.loadAndSwitchState(new OptionsState());
 			}
-			else if (controls.ACCEPT && !WeekData.weekIsLocked(loadedWeeks[curWeek].fileName))
+			else if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end && !WeekData.weekIsLocked(loadedWeeks[curWeek].fileName))
 			{
 				var rec:Int = loadedWeeks[curWeek].recommended;
 				if (Math.isNaN(loadedWeeks[curWeek].recommended))
@@ -292,7 +295,7 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		if (controls.BACK && canPressbuttons && !selectedWeek #if !FORCE_DEBUG_VERSION && ClientPrefs.pastOGWeek #end)
+		if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end && canPressbuttons && !selectedWeek #if !FORCE_DEBUG_VERSION && ClientPrefs.pastOGWeek #end)
 		{
 			canPressbuttons = false;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
