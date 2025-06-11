@@ -151,6 +151,10 @@ class DialogueBox extends FlxSpriteGroup
 
 	override function update(elapsed:Float)
 	{
+		var justTouched:Bool = false;
+ 		for (touch in FlxG.touches.list)
+ 			if (touch.justPressed)
+ 				justTouched = true;
 		// HARD CODING CUZ IM STUPDI
 		if (PlayState.SONG.song.toLowerCase() == 'roses')
 			portraitLeft.visible = false;
@@ -178,7 +182,7 @@ class DialogueBox extends FlxSpriteGroup
 			dialogueStarted = true;
 		}
 
-		if(PlayerSettings.player1.controls.ACCEPT)
+		if(PlayerSettings.player1.controls.ACCEPT || justTouched)
 		{
 			if (dialogueEnded)
 			{
