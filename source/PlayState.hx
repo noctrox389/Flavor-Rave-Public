@@ -403,27 +403,20 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
-		trace("Hello! You've started Playstate!");
 		FlxG.mouse.visible = false;
 
-		trace("No more mouse, lets go and set some stuff");
 		playedTitleCard = false; // fixes crashes when ending a song. lol.
 
 		//trace('Playback Rate: ' + playbackRate);
-		trace("clearing stored memory");
 		Paths.clearStoredMemory();
 
 		// for lua
-		trace("setting the instance for lua");
 		instance = this;
 
-		trace("setting the debug keys");
 		debugKeysChart = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_1'));
 		debugKeysCharacter = ClientPrefs.copyKey(ClientPrefs.keyBinds.get('debug_2'));
-		trace("resetting songname in pausesubstate to default");
 		PauseSubState.songName = null; //Reset to default
 
-		trace("setting keys and control arrays(i dont think this is the problem)");
 		keysArray = [
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_left')),
 			ClientPrefs.copyKey(ClientPrefs.keyBinds.get('note_down')),
@@ -438,7 +431,6 @@ class PlayState extends MusicBeatState
 			'NOTE_RIGHT'
 		];
 
-		trace("Setting up ratings!(I will be a little more lax on the tracelines from here cos im honestly doubting the crash is from playstate this time, but i could be wrong");
 		//Ratings
 		ratingsData.push(new Rating('marvelous')); //default rating
 
@@ -474,21 +466,17 @@ class PlayState extends MusicBeatState
 		rating.health = -0.03;
 		ratingsData.push(rating);
 
-		trace("popup ratings?");
 		ratingPop = new PopupRating();
 
-		trace("Just the two of us");
 		// For the "Just the Two of Us" achievement
 		for (i in 0...keysArray.length)
 		{
 			keysPressed.push(false);
 		}
 
-		trace("stopping music or something");
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		trace("Setting gameplay settings(i'll be a little upset if the crash happens here)");
 		// Gameplay settings
 		playbackRate = ClientPrefs.getGameplaySetting('songspeed', 1);
 		healthGain = ClientPrefs.getGameplaySetting('healthgain', 1);
@@ -501,12 +489,10 @@ class PlayState extends MusicBeatState
 		opponentPlay = ClientPrefs.getGameplaySetting('opponentplay', false);
 		strumlaneAlpha = ClientPrefs.laneAlpha;
 
-		trace("Something about playback and practice rate");
 
 		if (practiceMode && practiceRate != 1.0)
 			playbackRate = practiceRate;
 
-		trace("Setting up cameras(the bug better not be here)");
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
 		camEffect = new FlxCamera();
@@ -516,97 +502,68 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 
-		trace("first paragraph of cams done");
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camEffect, false);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
-		trace("group music notes");
 		grpMusicNotes = new FlxTypedGroup<FlxSprite>();
 		cachedNotes = [];
 
-		trace("setting the default target");
 		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		FRFadeTransition.nextCamera = camOther;
 
-		trace("setting persistents to true");
 		persistentUpdate = true;
 		persistentDraw = true;
-
-		trace("ooo this is interesting, looks like the default song will always be cranberry pop");
 
 		if (SONG == null)
 			SONG = Song.loadFromJson('cranberry-pop', 'cranberry-pop');
 
-		trace("conductor stuff");
 		Conductor.mapBPMChanges(SONG);
 		Conductor.bpm = SONG.bpm;
 
-		trace("its about to read metadata, maybe this is it");
 		metadata = null;
 
-		trace("time to read");
 		// read the metadata
 		try
 		{
-			trace("first thing, rawjson is null");
 			var rawJson = null;
 		
 			#if MODS_ALLOWED
-			trace("setting up moddyfile");
 			var moddyFile:String = Paths.modsJson(SONG.id + '/meta');
-			trace("ya know what lets also trace it" + moddyFile);
 
 			if (FileSystem.exists(moddyFile))
 			{
-				trace("ok it exists, lets grab it!");
 				rawJson = File.getContent(moddyFile).trim();
-				trace("got it!");
 			}
 			#end
 
-			trace("stuff to do with rawjson");
 			if (rawJson == null)
 			{
 				#if sys
-				trace("grabbing for sys");
 				rawJson = File.getContent(Paths.json(SONG.id + '/meta')).trim();
-				trace("its at" + rawJson);
 				#else
-				trace("grabbing for assets");
 				rawJson = Assets.getText(Paths.json(SONG.id + '/meta')).trim();
-				trace("its at" + rawJson);
 				#end
 			}
 
-			trace("lol it ends with a curly bracket lets do something bout that");
 			while (!rawJson.endsWith("}"))
 				rawJson = rawJson.substr(0, rawJson.length - 1);
 
-			trace("i cast upon metadata my rawjson!");
 			metadata = cast Json.parse(rawJson);
-			trace("lets set metadata to true");
 			hasMetadata = true;
-			trace("nice");
 		}
 		catch (e)
 		{
-			trace("Huh? an error? Honestly this shouldnt be the problem im looking for cos i never saw the trace below");
 			hasMetadata = false;
 			trace('[${SONG.song}] Metadata either doesn\'t exist or contains an error!');
 		}
 
-		trace("getting curweek");
 		curWeek = WeekData.getCurrentWeek();
-		trace("getting cursong");
 		curSong = hasMetadata ? metadata.song.name : SONG.song;
-		trace("getting titlecardstep");
 		titleCardStep = (hasMetadata && metadata.song.titleCardStep != null ? metadata.song.titleCardStep : 1);
-		trace("setting arrow skin");
 		songArrowSkin = SONG.arrowSkin;
-		trace("ok i will stop traces here, HOPEFULLY we catch the error before then else i gotta add more here later");
 
 
 		#if discord_rpc
@@ -632,7 +589,6 @@ class PlayState extends MusicBeatState
 		}
 		SONG.stage = curStage;
 
-		trace("Ok one more trace first, we're getting stage data");
 		var stageData:StageFile = StageData.getStageFile(curStage);
 		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
 			stageData = {
@@ -698,15 +654,11 @@ class PlayState extends MusicBeatState
 		if(stageData.camera_boundaries != null)
 			cameraBoundaries = stageData.camera_boundaries;
 
-		trace("Jk another trace, the suspicious thing was how last time it started around these parts i think");
 		boyfriendGroup = new FlxSpriteGroup(BF_X, BF_Y);
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 
-		trace("Dammit the bug had to happen after my original tracelines, lemme do this first");
 		allowExtra = hasMetadata && metadata.song.extraCharacter != null && metadata.song.extraCharacter[0];
-
-		trace("setting more extra stuff");
 
 		if (allowExtra)
 		{
@@ -719,38 +671,29 @@ class PlayState extends MusicBeatState
 			extraGroup = new FlxSpriteGroup(EXTRA_X, EXTRA_Y);
 		}
 
-		trace("Setting stagezoom to camzoom");
 		defaultCamZoom = defaultStageZoom;
 
-		trace("add gfgroup");
 		add(gfGroup); //Needed for blammed lights
 
-		trace("add extragroup");
 		if (allowExtra)
 			add(extraGroup);
 
-		trace("add dadgroup");
 		add(dadGroup);
-		trace("add bfgroup");
 		add(boyfriendGroup);
 
-		trace("add grpmusicnotes");
 		add(grpMusicNotes);
 
-		trace("setting a luadebug group");
 		#if LUA_ALLOWED
 		luaDebugGroup = new FlxTypedGroup<DebugLuaText>();
 		luaDebugGroup.cameras = [camOther];
 		add(luaDebugGroup);
 		#end
 
-		trace("time to set global scripts and stuff");
 		// "GLOBAL" SCRIPTS
 		#if LUA_ALLOWED
 		var filesPushed:Array<String> = [];
 		var foldersToCheck:Array<String> = [Paths.getPreloadPath('scripts/')];
 
-		trace("doing stuff for global scripts");
 		#if MODS_ALLOWED
 		foldersToCheck.insert(0, Paths.mods('scripts/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
@@ -760,7 +703,6 @@ class PlayState extends MusicBeatState
 			foldersToCheck.insert(0, Paths.mods(mod + '/scripts/'));
 		#end
 
-		trace("ok, reading folder");
 		for (folder in foldersToCheck)
 		{
 			if(FileSystem.exists(folder))
@@ -777,41 +719,25 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		trace("ok that worked, now stage scripts?");
 
 		// STAGE SCRIPTS
 		#if (MODS_ALLOWED && LUA_ALLOWED)
 		var doPush:Bool = false;
 		var luaFile:String = 'stages/' + curStage + '.lua';
-		trace("What's luafile: " + luaFile);
-		var stringExister:String = Paths.modFolders(luaFile);
-		trace("Here is the stringExister:" + stringExister);
-		if(FileSystem.exists(stringExister)) {
-			luaFile = stringExister;
-			trace("Let's reconfirm" + luaFile);
+		if(FileSystem.exists(Paths.modFolders(luaFile))) {
+			luaFile = Paths.modFolders(luaFile);
 			doPush = true;
-			trace("doPush has been set to true");
 		} else {
 			luaFile = Paths.getPreloadPath(luaFile);
-			trace("Oh, preload confirmation" + luaFile);
 			if(FileSystem.exists(luaFile)) {
-				trace("About to to doPush for preload");
 				doPush = true;
-				trace("doPush has been set to true");
 			}
-			luaFile = #if mobile Sys.getCwd() + #end luaFile;
-			trace("Let's double confirm luaFile: " + luaFile);
 		}
 
-		trace("Ok, now let's push it to the luaarray");
-		if(doPush) {
-			trace("Here we go");
+		if(doPush)
 			luaArray.push(new FunkinLua(luaFile));
-			trace("Hope that worked");
-		}
 		#end
 
-		trace("i didnt feel like putting a trace line between this and the last one, but now for gfversion");
 		var gfVersion:String = SONG.gfVersion;
 		if(gfVersion == null || gfVersion.length < 1)
 		{
@@ -819,12 +745,10 @@ class PlayState extends MusicBeatState
 			SONG.gfVersion = gfVersion; //Fix for the Chart Editor
 		}
 
-		trace("ok if that works we gotta set the shadows now");
 		var shadows:Bool = (stageData.shadows == null) ? false : stageData.shadows;
 		var pBright:Float = (stageData.player_brightness == null) ? 1.0 : stageData.player_brightness;
 		var sDark:Float = (stageData.shadow_darkness == null) ? 0.5 : stageData.shadow_darkness;
 
-		trace("more gf stuff");
 		if (!stageData.hide_girlfriend)
 		{
 			gf = new Character(0, 0, gfVersion);
@@ -840,7 +764,6 @@ class PlayState extends MusicBeatState
 			ratingPop.cachePopUpSprites(gf);
 		}
 
-		trace("now more allowextra stuff");
 		if (allowExtra)
 		{
 			var isPlayer:Bool = metadata.song.extraCharacter[1];
@@ -860,7 +783,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		trace("ok this is where we started our tracelines from updog last time so lemme see");
 		dad = new Character(0, 0, SONG.player2);
 		dad.hasShadow = shadows;
 		dad.shadowDarkness = sDark;
@@ -869,8 +791,6 @@ class PlayState extends MusicBeatState
 		startCharacterPos(dad, true);
 		dadGroup.add(dad);
 		startCharacterLua(dad.curCharacter);
-
-		trace("done with dad");
 
 		boyfriend = new Character(0, 0, SONG.player1, true);
 		boyfriend.hasShadow = shadows;
@@ -881,11 +801,8 @@ class PlayState extends MusicBeatState
 		boyfriendGroup.add(boyfriend);
 		startCharacterLua(boyfriend.curCharacter);
 
-		trace("done with bf");
-
 		Paths.image(opponentPlay ? dad.noteSplash[0] : boyfriend.noteSplash[0]);
 
-		trace("about to set campos");
 		var camPos:FlxPoint = new FlxPoint(girlfriendCameraOffset[0], girlfriendCameraOffset[1]);
 		if(gf != null)
 		{
@@ -898,13 +815,11 @@ class PlayState extends MusicBeatState
 			camPos.y = centerCameraOffset[1];
 		}
 
-		trace("setting up normal dialogue");
 		var file:String = Paths.json(SONG.id + '/dialogue'); //Checks for json/Psych Engine dialogue
 		if (OpenFlAssets.exists(file)) {
 			dialogueJson = DialogueBoxPsych.parseDialogue(file);
 		}
 
-		trace("setting up dreamcast dialogue");
 		// Checks for Dreamcast dialogue
 		if (hasMetadata && metadata.dialogue != null)
 		{
@@ -912,19 +827,15 @@ class PlayState extends MusicBeatState
 			parseDreamcastDialogue(false);
 		}
 
-		trace("songpos");
 		Conductor.songPosition = -(countdownTime * 1000) * countdownLoop;
 
-		trace("now strumline");
 		strumLine = new FlxSprite(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, 50).makeGraphic(FlxG.width, 10);
 		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 150;
 		strumLine.scrollFactor.set();
 
-		trace("now ratingpop");
 		add(ratingPop);
 		ratingPop.cameras = [camHUD];
 
-		trace("i dont think its any of this but setting up the lanes, notes and strums");
 		grpNoteLanes = new FlxTypedGroup<FlxSprite>();
 		add(grpNoteLanes);
 
@@ -935,12 +846,10 @@ class PlayState extends MusicBeatState
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
-		trace("ok now to generate song(if the problem is you again i'll be sad)");
 		// startCountdown();
 
 		generateSong(SONG.song);
 
-		trace("Wow it wasnt you? great job");
 		// After all characters being loaded, it makes then invisible 0.01s later so that the player won't freeze when you change characters
 		// add(strumLine);
 
@@ -958,7 +867,6 @@ class PlayState extends MusicBeatState
 			camFollowPos = prevCamFollowPos;
 			prevCamFollowPos = null;
 		}
-		trace("adding camfollowpos");
 		add(camFollowPos);
 
 		FlxG.camera.follow(camFollowPos, LOCKON, 1);
@@ -971,7 +879,6 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection();
 
-		trace("done with camera stuff, now campaign stuff");
 		campaignScore = restartScore;
 		campaignHits = restartHits;
 		campaignMisses = restartMisses;
@@ -979,7 +886,6 @@ class PlayState extends MusicBeatState
 		campaignTotalNotesHit = restartTotalNotesHit;
 		campaignTotalPlayed = restartTotalPlayed;
 
-		trace("setting the flavorhud");
 		flavorHUD = new FlavorHUD(boyfriend, dad, hasMetadata ? metadata : null);
 		flavorHUD.y = FlxG.height * (!ClientPrefs.downScroll ? 0.87 : 0.03);
 		flavorHUD.visible = !ClientPrefs.hideHud;
@@ -991,7 +897,6 @@ class PlayState extends MusicBeatState
 		prevlastSungP1 = boyfriend;
 		prevlastSungP2 = dad;
 
-		trace("JUDGEMENT");
 		// do we really need this? i mean ui lua scripts exists.
 		judgementCounter = new LanguageText(20, 0, FlxG.width, "", 20, 'krungthep');
 		judgementCounter.setStyle(FlxColor.WHITE, LEFT);
@@ -1003,7 +908,6 @@ class PlayState extends MusicBeatState
 		judgementCounter.visible = (!ClientPrefs.hideHud && ClientPrefs.judgementCounter);
 		add(judgementCounter);
 
-		trace("botplay text, honestly this shouldn't be the problem right");
 		botplayTxt = new LanguageText(0, strumLine.y + 32, FlxG.width - 800, Language.gameplay.get('botplay', "Botplay").toUpperCase(), 32, 'despair');
 		botplayTxt.setStyle(FlxColor.WHITE, CENTER);
 		botplayTxt.setBorderStyle(OUTLINE, FlxColor.BLACK, 2, 2);
@@ -1016,8 +920,6 @@ class PlayState extends MusicBeatState
 		botplayTxt.visible = cpuControlled || practiceMode;
 		add(botplayTxt);
 
-		trace("yeah I thought so, setting up camhuds");
-
 		grpNoteLanes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
@@ -1026,7 +928,6 @@ class PlayState extends MusicBeatState
 		judgementCounter.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
 
-		trace("now for custom notetypes");
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys())
 		{
@@ -1052,7 +953,6 @@ class PlayState extends MusicBeatState
 			}
 			#end
 		}
-		trace("and then custom events");
 		for (event in eventPushedMap.keys())
 		{
 			#if MODS_ALLOWED
@@ -1078,19 +978,16 @@ class PlayState extends MusicBeatState
 			#end
 		}
 		#end
-		trace("clearing and nulling them");
 		noteTypeMap.clear();
 		noteTypeMap = null;
 		eventPushedMap.clear();
 		eventPushedMap = null;
 
-		trace("lets get song specific scripts");
 		// SONG SPECIFIC SCRIPTS
 		#if LUA_ALLOWED
 		var filesPushed:Array<String> = [];
 		var foldersToCheck:Array<String> = [Paths.getPreloadPath('data/' + SONG.id + '/')];
 
-		trace("checking folders");
 		#if MODS_ALLOWED
 		foldersToCheck.insert(0, Paths.mods('data/' + SONG.id + '/'));
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
@@ -1100,7 +997,6 @@ class PlayState extends MusicBeatState
 			foldersToCheck.insert(0, Paths.mods(mod + '/data/' + SONG.id + '/' ));// using push instead of insert because these should run after everything else
 		#end
 
-		trace("more checking");
 		for (folder in foldersToCheck)
 		{
 			if(FileSystem.exists(folder))
@@ -1117,11 +1013,9 @@ class PlayState extends MusicBeatState
 		}
 		#end
 
-		trace("particle group");
 		particleGroup = new FlxTypedGroup<FlxSprite>();
 		add(particleGroup);
 
-		trace("countdown stuff(please not this)");
 		if (isStoryMode && !seenCutscene)
 		{
 			switch (SONG.id)
@@ -1155,16 +1049,13 @@ class PlayState extends MusicBeatState
 		else
 			startCountdown();
 
-		trace("recalculate ratings");
 		RecalculateRating();
 
-		trace("some precaching");
 		// PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
 		if (ClientPrefs.hitsoundVolume > 0) Paths.sound('hitsound', true);
 		for (i in 1...4) Paths.sound('missnote$i', true);
 		CoolUtil.getAnnouncerLine('rating-FC', true);
 
-		trace("pause music lol");
 		if (PauseSubState.songName != null) Paths.music(PauseSubState.songName);
 		else Paths.music('110th-street');
 
@@ -1172,12 +1063,10 @@ class PlayState extends MusicBeatState
 		updateRichPresence(false);
 		#end
 
-		trace("replay?");
 		if (!loadRep) {
 			rep = new Replay("na");
 		}
 
-		trace("input methods");
 		if(!ClientPrefs.controllerMode)
 		{
 			FlxG.stage.application.window.onKeyDown.add(InputMethods.onKeyDown);
@@ -1187,7 +1076,6 @@ class PlayState extends MusicBeatState
 			//FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		}
 
-		trace("more cachin");
 		// Have to do this here so that it gets cached in cacheCountdown()
 		{
 			var songIdx:Int = 0;
@@ -1204,14 +1092,11 @@ class PlayState extends MusicBeatState
 			chara2 = charaData[0];
 		}
 
-		trace("last lines before super create shows up");
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
 
-		trace("and here it is");
 		super.create();
 
-		trace("ok setting stuff if not low quality");
 		if (!ClientPrefs.lowQuality)
 		{
 			//gotta hide the normally invisible stuff
@@ -1238,14 +1123,11 @@ class PlayState extends MusicBeatState
 			insert(999999, hideborderthignieawmdsa);
 		}
 
-		trace("cachecountdown");
 		cacheCountdown();
 		ratingPop.cachePopUpSprites(opponentPlay ? dad : boyfriend);
 
-		trace("clearingunusedmemory");
 		Paths.clearUnusedMemory();
 
-		trace("camtransition");
 		FRFadeTransition.nextCamera = camOther;
 	}
 
@@ -2207,7 +2089,6 @@ class PlayState extends MusicBeatState
 	private var eventPushedMap:Map<String, Bool> = new Map<String, Bool>();
 	private function generateSong(dataPath:String):Void
 	{
-		trace("Yo, generate song part 1!");
 		// FlxG.log.add(ChartParser.parse());
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype','multiplicative');
 
@@ -2219,11 +2100,8 @@ class PlayState extends MusicBeatState
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed', 1);
 		}
 
-		trace("Ok done, now part 2!");
 		var songData = SONG;
-		trace("done");
 		Conductor.bpm = songData.bpm;
-		trace("done again");
 
 		if (hasMetadata && metadata.control != null)
 		{
@@ -2234,7 +2112,6 @@ class PlayState extends MusicBeatState
 			disableHealth = metadata.control.disableHealth;
 		}
 
-		trace("done again again");
 		if (SONG.needsVoices)
 		{
 			try
@@ -2254,33 +2131,26 @@ class PlayState extends MusicBeatState
 			vocalTracks.set("", new FlxSound());
 		}
 
-		trace("set vocals i think?");
 		for (vocal in vocalTracks)
 		{
 			vocal.pitch = playbackRate;
 			FlxG.sound.list.add(vocal);
 		}
 
-		trace("again");
 		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(SONG.song)));
 
-		trace("adding notes");
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
 
-		trace("let's see the notedata");
 		var noteData:Array<SwagSection>;
 
 		// NEW SHIT
 		noteData = songData.notes;
 
-		trace("If that worked we're at playercounter and dabeats now");
-
 		var playerCounter:Int = 0;
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
-		trace("is this loading events?");
 		var file:String = Paths.json(SONG.id + '/events');
 		#if MODS_ALLOWED
 		if (FileSystem.exists(Paths.modsJson(SONG.id + '/events')) || FileSystem.exists(file)) {
@@ -2306,7 +2176,6 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		trace("speaker chart is insane");
 		//Speaker Chart
 		var file:String = Paths.json(SONG.id + '/speaker');
 		#if MODS_ALLOWED
@@ -2409,11 +2278,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		trace("what are these");
 		var prevRandBF:Int = -1;
 		var prevRandOpp:Int = -1;
 
-		trace("more stuff");
 		for (section in noteData)
 		{
 			for (songNotes in section.sectionNotes)
@@ -2510,7 +2377,6 @@ class PlayState extends MusicBeatState
 			}
 			daBeats += 1;
 		}
-		trace("event notes");
 		for (event in songData.events) //Event Notes
 		{
 			for (i in 0...event[1].length)
@@ -2531,7 +2397,6 @@ class PlayState extends MusicBeatState
 		// trace(unspawnNotes.length);
 		// playerCounter += 1;
 
-		trace("unspawn notes and stuff");
 		unspawnNotes.sort(sortByShit);
 		if(eventNotes.length > 1) { //No need to sort if there's a single one or none at all
 			eventNotes.sort(sortByTime);
@@ -2539,13 +2404,9 @@ class PlayState extends MusicBeatState
 		if(speakerNotes.length > 1) { 
 			speakerNotes.sort(sortByShit);
 		}
-		trace("checking event note");
 		checkEventNote();
-		trace("now speaker notes!");
 		checkSpeakerNote();
-		trace("now this should work");
 		generatedMusic = true;
-		trace("and we done!");
 	}
 
 	function eventPushed(event:EventNote) {
