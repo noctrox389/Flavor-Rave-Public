@@ -115,12 +115,19 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 		ClientPrefs.saveSettings();
 
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 		super.create();
 	}
 
 	override function closeSubState() {
 		super.closeSubState();
 		ClientPrefs.saveSettings();
+		#if mobile
+		removeVirtualPad();
+		addVirtualPad(UP_DOWN,A_B);
+		#end
 		changeSelection();
 		FlxTween.cancelTweensOf(bgthingie);
 		FlxTween.tween(bgthingie, {x: 0}, 0.2, {ease: FlxEase.sineOut});
@@ -132,14 +139,14 @@ class OptionsState extends MusicBeatState
 
 		if (allowInput)
 		{
-			if (controls.UI_UP_P) {
+			if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end) {
 				changeSelection(-1);
 			}
-			if (controls.UI_DOWN_P) {
+			if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end) {
 				changeSelection(1);
 			}
 	
-			if (controls.BACK) {
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end) {
 				allowInput = false;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				switch(whichState)
@@ -156,7 +163,7 @@ class OptionsState extends MusicBeatState
 				}
 			}
 	
-			if (controls.ACCEPT) {
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end) {
 				openSelectedSubstate(options[curSelected]);
 			}
 		}
