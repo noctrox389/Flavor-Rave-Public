@@ -150,7 +150,6 @@ class Main extends Sprite
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
 		}
-		fpsVar.positionFPS(10, 3, Math.min(w / FlxG.width, h / FlxG.height));
 
 		#if html5
 		FlxG.autoPause = false;
@@ -169,8 +168,11 @@ class Main extends Sprite
 		#end
 		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
 
-		LimeSystem.allowScreenTimeout = ClientPrefs.screensaver; 		
- 		//FlxG.scaleMode = new MobileScaleMode(); idk if I need this yet
+		LimeSystem.allowScreenTimeout = ClientPrefs.screensaver;
+		FlxG.signals.gameResized.add(function (w, h) {
+		     if(fpsVar != null)
+ 		           fpsVar.positionFPS(10, 3, Math.min(w / FlxG.width, h / FlxG.height));
+		});
 	}
 
 	// Code was entirely made by sqirra-rng for their fnf engine named "Izzy Engine", big props to them!!!
