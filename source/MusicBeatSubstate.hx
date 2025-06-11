@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.tweens.FlxTween;
+import flixel.addons.transition.FlxTransitionableState;
 
 class MusicBeatSubstate extends FlxSubState
 {
