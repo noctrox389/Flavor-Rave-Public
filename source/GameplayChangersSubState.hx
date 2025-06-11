@@ -66,7 +66,7 @@ class GameplayChangersSubState extends MusicBeatSubstate
 		});
 
 		#if mobile
-		addVirtualPad(FULL,A_B_X);
+		addVirtualPad(FULL,B_X);
 		#end
 		changeSelection();
 	}
