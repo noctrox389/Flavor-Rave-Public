@@ -928,6 +928,9 @@ class PlayState extends MusicBeatState
 		judgementCounter.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
 
+		addHitbox(3);
+   		_hitbox.visible = false;
+		
 		#if LUA_ALLOWED
 		for (notetype in noteTypeMap.keys())
 		{
@@ -1638,6 +1641,10 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
+		#if mobile
+   		_hitbox.visible = true;
+   		#end
+		
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
 			return;
@@ -2856,7 +2863,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		if (controls.PAUSE && startedCountdown && canPause)
+		if (controls.PAUSE #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
 			if(ret != FunkinLua.Function_Stop) {
@@ -4153,6 +4160,10 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 		updateTime = false;
 
+		#if mobile
+   		_hitbox.visible = false;
+   		#end
+
 		seenCutscene = false;
 
 		var ret:Dynamic = callOnLuas('onEndSong', [], false);
@@ -4569,7 +4580,7 @@ class PlayState extends MusicBeatState
 		var key:Int = getKeyFromEvent(eventKey);
 		//trace('Pressed: ' + eventKey);
 
-		if (!cpuControlled && startedCountdown && !paused && key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || ClientPrefs.controllerMode))
+		if (!cpuControlled && startedCountdown && !paused && key > -1 && (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || !ClientPrefs.controllerMode))
 		{
 			if(!boyfriend.stunned && generatedMusic && !endingSong)
 			{
@@ -4693,6 +4704,15 @@ class PlayState extends MusicBeatState
 		return -1;
 	}
 
+	private function hitboxDataKeyIsPressed(data:Int):Bool
+ 	{
+ 		if (_hitbox.array[data].pressed) 
+                 {
+                         return true;
+                 }
+ 		return false;
+ 	}
+
 	// Hold notes
 	private function keyShit():Void
 	{
@@ -4700,21 +4720,19 @@ class PlayState extends MusicBeatState
 		var parsedHoldArray:Array<Bool> = parseKeys();
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
-		if(ClientPrefs.controllerMode)
+		if(!ClientPrefs.controllerMode)
 		{
 			var anas:Array<Ana> = [null, null, null, null];
-			var parsedArray:Array<Bool> = parseKeys('_P');
-			if(parsedArray.contains(true))
-			{
-				for (i in 0...parsedArray.length)
+			#if android
+			for (i in 0..._hitbox.array.length) {
+				if (_hitbox.array[i].justPressed)
 				{
-					if(parsedArray[i] && strumsBlocked[i] != true) 
-					{
-						onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
-						anas[i] = new Ana(Conductor.songPosition, null, false, "miss", i);
-					}
+				       onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
+				       anas[i] = new Ana(Conductor.songPosition, null, false, "miss", i);
+					
 				}
 			}
+			#end
 
 			if (!loadRep)
 				for (i in anas)
@@ -4731,12 +4749,37 @@ class PlayState extends MusicBeatState
 			// rewritten inputs???
 			notes.forEachAlive(function(daNote:Note)
 			{
+				if(!ClientPrefs.controllerMode && !ClientPrefs.keyboardEnabled)
+				{
+				// mobile hold note functions
+				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && hitboxDataKeyIsPressed(daNote.noteData) && daNote.canBeHit
+					&& daNote.recalculatePlayerNote(opponentPlay) && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit && daNote.sustainActive) {
+					goodNoteHit(daNote);
+				}
+
+				
+				// mobile hold release functions
+				if (daNote.recalculatePlayerNote(opponentPlay) && !cpuControlled && daNote.isSustainNote && daNote.sustainActive && !hitboxDataKeyIsPressed(daNote.noteData) && !cpuControlled && !daNote.ignoreNote && !endingSong 
+					&& (daNote.tooLate || !daNote.wasGoodHit)) { // Hold notes
+					// trace("User released key while playing a sustain at: " + daNote.spotInLine);
+					for (i in daNote.parent.children) {
+						i.alpha = 0.1;
+						i.multAlpha = 0.1;
+						i.sustainActive = false;
+						if (!disableHealth)
+							health -= (0.08 * healthLoss) / daNote.parent.children.length;
+					}
+				}
+				}
+				else
+				{
 				// hold note functions
 				if (strumsBlocked[daNote.noteData] != true && daNote.isSustainNote && parsedHoldArray[daNote.noteData] && daNote.canBeHit
 					&& daNote.recalculatePlayerNote(opponentPlay) && !daNote.tooLate && !daNote.wasGoodHit && !daNote.blockHit && daNote.sustainActive) {
 					goodNoteHit(daNote);
 				}
 
+				
 				// hold release functions
 				if (daNote.recalculatePlayerNote(opponentPlay) && !cpuControlled && daNote.isSustainNote && daNote.sustainActive && !parsedHoldArray[daNote.noteData] && !cpuControlled && !daNote.ignoreNote && !endingSong 
 					&& (daNote.tooLate || !daNote.wasGoodHit)) { // Hold notes
@@ -4749,6 +4792,7 @@ class PlayState extends MusicBeatState
 							health -= (0.08 * healthLoss) / daNote.parent.children.length;
 					}
 				}
+				}
 			});
 
 			if (char.animation.curAnim != null && char.holdTimer > Conductor.stepCrochet * 0.0011 * char.singDuration && char.animation.curAnim.name.startsWith('sing') && !char.animation.curAnim.name.endsWith('miss'))
@@ -4758,17 +4802,16 @@ class PlayState extends MusicBeatState
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
-		if(ClientPrefs.controllerMode || strumsBlocked.contains(true))
+		if(!ClientPrefs.controllerMode)
 		{
-			var parsedArray:Array<Bool> = parseKeys('_R');
-			if(parsedArray.contains(true))
-			{
-				for (i in 0...parsedArray.length)
+			#if android
+			for (i in 0..._hitbox.array.length) {
+				if (_hitbox.array[i].justReleased)
 				{
-					if(parsedArray[i] || strumsBlocked[i] == true)
-						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
+				       onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
 				}
 			}
+			#end
 		}
 	}
 
