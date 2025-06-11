@@ -151,7 +151,10 @@ class GameOverSubState extends MusicBeatSubstate
 			FlxTween.tween(nobutt, {alpha: 1}, 0.3, {ease: FlxEase.sineOut});
 			checkifAchivComp();
 		});
-
+                #if mobile
+		addVirtualPad(LEFT_RIGHT, A_B);
+	        addVirtualPadCamera();
+	        #end
 	}
 
 	override function update(elapsed:Float)
@@ -160,7 +163,7 @@ class GameOverSubState extends MusicBeatSubstate
 
 		if (playingDeathSound && !isEnding)
 		{
-			if (controls.ACCEPT)
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 			{
 				switch (curSelected)
 				{
@@ -172,19 +175,19 @@ class GameOverSubState extends MusicBeatSubstate
 				
 			}
 
-			if (controls.UI_LEFT_P)
+			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 
-			if (controls.UI_RIGHT_P)
+			if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
 
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				endBullshit(false);
 			}
