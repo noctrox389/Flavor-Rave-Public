@@ -43,10 +43,6 @@ class PauseSubState extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float, ?forcePause:String)
 	{
-		#if mobile
-		addVirtualPad(UP_DOWN, A);
-	        addVirtualPadCamera();
-	        #end
 		super();
 
 		if(CoolUtil.difficulties.length < 2) menuItemsOG.remove('Change Difficulty'); //No need to change difficulty if there is only one!
@@ -223,6 +219,10 @@ class PauseSubState extends MusicBeatSubstate
 			hideborderthignieawmdsa.antialiasing = false;
 			insert(999999, hideborderthignieawmdsa);
 		}
+		#if mobile
+		addVirtualPad(UP_DOWN, A);
+	        addVirtualPadCamera();
+	        #end
 	}
 
 	var holdTime:Float = 0;
