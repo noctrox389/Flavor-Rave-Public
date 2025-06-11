@@ -50,9 +50,6 @@ class CharaSelect extends MusicBeatSubstate
 
 	public function new(state:String = 'story', players:Array<String>, songorweekName:String, recommended:Int = 0, oneplayer:Bool = false)
 	{
-		#if mobile
-		addVirtualPad(LEFT_RIGHT,A_B);
-		#end
 		//Honestly making a 1p version of this is janky and I'm currently not in the best of moods. Will prob rewrite later
 		super();
 
@@ -211,6 +208,11 @@ class CharaSelect extends MusicBeatSubstate
 			FlxTween.tween(comboText, {alpha: 1}, 0.1, {ease: FlxEase.quadInOut, startDelay: 0.1});
 			FlxTween.tween(diffCalcText, {alpha: 1}, 0.1, {ease: FlxEase.quadInOut, startDelay: 0.1});
 		});
+
+		#if mobile
+		addVirtualPad(LEFT_RIGHT,A_B);
+		addVirtualPadCamera();
+		#end
 	}
 
 	override function update(elapsed:Float):Void
