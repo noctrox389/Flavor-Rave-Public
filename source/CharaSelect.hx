@@ -289,7 +289,6 @@ class CharaSelect extends MusicBeatSubstate
 
 	function totheSong():Void
 	{
-		trace("Alright, song got selected");
 		canpressbuttons = false;
 		FlxG.sound.play(Paths.sound('confirmMenu'));
 		FRFadeTransition.type = 'songTrans';
@@ -303,9 +302,7 @@ class CharaSelect extends MusicBeatSubstate
 			selectSound = new FlxSound().loadEmbedded(CoolUtil.getAnnouncerLine('charselect/' + (curSelected == 0 ? p2thingie : p1thingie) + '-story'));
 			selectSound.onComplete = function() 
 			{
-				trace("Setting opponentplay or not in clientprefs 1");
 				ClientPrefs.gameplaySettings.set('opponentplay', curSelected == 0 ? true : false);
-				trace("Loading the song now");
 				loadSong();
 			}
 			new FlxTimer().start(0.2, function(tmr:FlxTimer)
@@ -318,9 +315,7 @@ class CharaSelect extends MusicBeatSubstate
 			selectSound = new FlxSound().loadEmbedded(CoolUtil.getAnnouncerLine('charselect/' + (curSelected == 0 ? p2thingie : p1thingie)));
 			selectSound.onComplete = function() 
 			{
-				trace("Setting opponentplay or not in clientprefs 2(i think both does the same thing but just to be safe)");
 				ClientPrefs.gameplaySettings.set('opponentplay', curSelected == 0 ? true : false);
-				trace("Loading the song now");
 				loadSong();
 			}
 			new FlxTimer().start(0.2, function(tmr:FlxTimer)
@@ -330,9 +325,7 @@ class CharaSelect extends MusicBeatSubstate
 		}
 		else
 		{
-			trace("Setting opponentplay or not in clientprefs 3(i didnt know theres a third)");
 			ClientPrefs.gameplaySettings.set('opponentplay', curSelected == 0 ? true : false);
-			trace("Loading the song now");
 			loadSong();
 		}
 
@@ -347,9 +340,7 @@ class CharaSelect extends MusicBeatSubstate
 
 	function loadSong():Void
 	{
-		trace("Ok now we actually loading, this is to double confirm");
 		// I fucking did it again
-		// what - Hero
 		for (vocal in FreeplayState.vocalTracks)
 		{
 			if (vocal != null)
@@ -357,18 +348,14 @@ class CharaSelect extends MusicBeatSubstate
 				vocal.fadeTween.cancel();
 			}
 		}
-		trace("Something about cancelling vocals completed");
 
 		switch (whichState)
 		{
 			case 'freeplay':
-				trace("Ok now freeplay will load the song");
 				FreeplayState.instance.loadSong();
 			case 'story':
-				trace("Ok now story menu will load the song");
 				StoryMenuState.instance.selectWeek();
 			case 'sunsyn':
-				trace("Ok sunsyn is loading the song");
 				SunSynthState.instance.loadNoPressure();
 		}
 	}
