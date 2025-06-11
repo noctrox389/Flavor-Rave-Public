@@ -210,7 +210,8 @@ class Paths
 
 	static public function sound(key:String, ?async:Bool = false, ?library:String):Sound
 	{
-		return returnSound('sounds', key, async, library);
+		var sound:Sound = returnSound('sounds', key, library);
+		return sound;
 	}
 
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?library:String)
@@ -220,18 +221,21 @@ class Paths
 
 	inline static public function music(key:String, ?library:String):Sound
 	{
-		return returnSound('music', key, false, library);
+		var file:Sound = returnSound('music', key, library);
+		return file;
 	}
-
+	
 	inline static public function voices(song:String, suffix:String = ""):Any
 	{
 		var suffixPath:String = suffix != "" ? '-$suffix' : "";
-		return returnSound('songs', '${formatToSongPath(song)}/Voices$suffixPath');
+		return returnSound(null, '${formatToSongPath(song)}/Voices$suffixPath', 'songs');
 	}
 
 	inline static public function inst(song:String):Any
 	{
-		return returnSound('songs', '${formatToSongPath(song)}/Inst');
+		var songKey:String = '${formatToSongPath(song)}/Inst';
+		var inst = returnSound(null, songKey, 'songs');
+		return inst;
 	}
 
 	inline static public function image(key:String, ?library:String, ?textureCompression:Bool, ?posInfos:haxe.PosInfos):FlxGraphic
@@ -406,40 +410,41 @@ class Paths
 	}
 
 	public static var currentTrackedSounds:Map<String, Sound> = [];
-	public static function returnSound(path:String, key:String, ?async:Bool = false, ?library:String) {
+	public static function returnSound(path:Null<String>, key:String, ?library:String) {
 		#if MODS_ALLOWED
-		var file:String = modsSounds(path, key);
-		//trace(file);
+		var modLibPath:String = '';
+		if (library != null) modLibPath = '$library/';
+		if (path != null) modLibPath += '$path';
+
+		var file:String = modsSounds(modLibPath, key);
 		if(FileSystem.exists(file)) {
-			if(!currentTrackedSounds.exists(file)) {
-				if(async) Sound.loadFromFile(file).onComplete(sound -> {currentTrackedSounds.set(file, sound);});
-				else currentTrackedSounds.set(file, Sound.fromFile(file));
+			if(!currentTrackedSounds.exists(file))
+			{
+				currentTrackedSounds.set(file, Sound.fromFile(file));
+				//trace('precached mod sound: $file');
 			}
-			if(!localTrackedAssets.contains(key)) localTrackedAssets.push(key);
+			localTrackedAssets.push(file);
 			return currentTrackedSounds.get(file);
 		}
 		#end
+
 		// I hate this so god damn much
-		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);
+		var gottenPath:String = '$key.$SOUND_EXT';
+		if(path != null) gottenPath = '$path/$gottenPath';
+		gottenPath = getPath(gottenPath, SOUND, library);
 		gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
 		// trace(gottenPath);
 		if(!currentTrackedSounds.exists(gottenPath))
-		#if MODS_ALLOWED
 		{
-			if(async) Sound.loadFromFile('./$gottenPath').onComplete(sound -> {currentTrackedSounds.set(gottenPath, sound);});
-			else currentTrackedSounds.set(gottenPath, Sound.fromFile('./$gottenPath'));
+			var retKey:String = (path != null) ? '$path/$key' : key;
+			retKey = ((path == 'songs') ? 'songs:' : '') + getPath('$retKey.$SOUND_EXT', SOUND, library);
+			if(OpenFlAssets.exists(retKey, SOUND))
+			{
+				currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(retKey));
+				//trace('precached vanilla sound: $retKey');
+			}
 		}
-		#else
-		{
-			var folder:String = '';
-			if(path == 'songs') folder = 'songs:';
-
-			var soundPath:String = folder + getPath('$path/$key.$SOUND_EXT', SOUND, library);
-			if(async) OpenFlAssets.loadSound(soundPath).onComplete(sound -> {currentTrackedSounds.set(gottenPath, sound);})
-			else currentTrackedSounds.set(gottenPath, OpenFlAssets.getSound(soundPath));
-		}
-		#end
-		if(!localTrackedAssets.contains(gottenPath)) localTrackedAssets.push(gottenPath);
+		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);
 	}
 
@@ -569,4 +574,4 @@ class Paths
 		return list;
 	}
 	#end
-		}
+}
