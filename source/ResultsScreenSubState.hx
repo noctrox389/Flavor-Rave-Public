@@ -461,9 +461,13 @@ class ResultsScreenSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
+		var justTouched:Bool = false;
+ 		for (touch in FlxG.touches.list)
+ 			if (touch.justPressed)
+ 				justTouched = true;
 		// keybinds
 
-		if (canpressbuttons && (PlayerSettings.player1.controls.ACCEPT || FlxG.mouse.justPressed && ClientPrefs.menuMouse))
+		if (canpressbuttons && (PlayerSettings.player1.controls.ACCEPT || justTouched || FlxG.mouse.justPressed && ClientPrefs.menuMouse))
 		{
 			
 			if (PlayState.isStoryMode) {
