@@ -426,8 +426,8 @@ class Paths
 		if(!currentTrackedSounds.exists(gottenPath))
 		#if MODS_ALLOWED
 		{
-			if(async) Sound.loadFromFile('./$gottenPath').onComplete(sound -> {currentTrackedSounds.set(gottenPath, sound);});
-			else currentTrackedSounds.set(gottenPath, Sound.fromFile('./$gottenPath'));
+			if(async) Sound.loadFromFile('$gottenPath').onComplete(sound -> {currentTrackedSounds.set(gottenPath, sound);});
+			else currentTrackedSounds.set(gottenPath, Sound.fromFile('$gottenPath'));
 		}
 		#else
 		{
