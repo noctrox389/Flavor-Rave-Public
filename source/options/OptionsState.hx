@@ -164,6 +164,7 @@ class OptionsState extends MusicBeatState
 			}
 	
 			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end) {
+				_virtualpad.visible = false;
 				openSelectedSubstate(options[curSelected]);
 			}
 		}
