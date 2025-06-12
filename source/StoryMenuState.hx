@@ -231,6 +231,7 @@ class StoryMenuState extends MusicBeatState
 
 			if(mbutt)
 			{
+				_virtualpad.visible = false;
 				persistentUpdate = false;
 				openSubState(new GameplayChangersSubState());
 			}
