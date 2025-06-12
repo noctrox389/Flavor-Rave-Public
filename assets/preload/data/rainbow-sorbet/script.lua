@@ -60,3 +60,18 @@ function thingie(num)
 		setProperty('isCameraOnForcedPos', false);
 	end
 end
+
+function onStepHit()
+     if curStep == 1152 then
+        setProperty('vin.alpha', 0.0001);
+		setProperty('boyfriendGroup.y', getProperty('BF_Y'));
+		setProperty('dadGroup.y', getProperty('DAD_Y'));
+		
+		setProperty('Rave.alpha', 0.0001);
+		setProperty('camFollow.x', 868);
+		setProperty('camFollow.y', 369);
+		setProperty('camera.target.x', 868);
+		setProperty('camera.target.y', 369);
+		setProperty('isCameraOnForcedPos', false);
+	end
+end
