@@ -22,12 +22,14 @@ class VideoHandler extends FlxVideo
 	override public function load(location:String, ?options:Array<String>):Bool
 	{
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.addEventListener(TouchEvent.TOUCH_BEGIN, onScreenPress);
 		return super.load(location, options);
 	}
 
 	override public function dispose():Void
 	{
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.removeEventListener(TouchEvent.TOUCH_BEGIN, onScreenPress);
 		super.dispose();
 	}
 
@@ -42,22 +44,12 @@ class VideoHandler extends FlxVideo
 			onEndReached.dispatch();
 		}
 	}
-	override public function update(elapsed:Float):Void
+	private function onScreenPress(event:TouchEvent):Void
 	{
-		super.update(elapsed);
-		
-		if (canSkip)
-		{
-		        for (touch in FlxG.touches.list)
-		        {
-			        if (touch.justPressed)
-			        {
-			                canSkip = false;
-			                onEndReached.dispatch();
-					//break; do we need to break? idk
-			        }
-		        }
-		}
+		if (!canSkip) 
+			return;
+		canSkip = false;
+		onEndReached.dispatch();
 	}
 }
 #end
