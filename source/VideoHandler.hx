@@ -3,6 +3,7 @@ import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
 import hxvlc.flixel.FlxVideo;
 import openfl.events.KeyboardEvent;
+import openfl.events.TouchEvent;
 
 class VideoHandler extends FlxVideo
 {
