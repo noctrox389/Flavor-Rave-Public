@@ -42,5 +42,22 @@ class VideoHandler extends FlxVideo
 			onEndReached.dispatch();
 		}
 	}
+	override public function update(elapsed:Float):Void
+	{
+		super.update(elapsed);
+		
+		if (canSkip)
+		{
+		        for (touch in FlxG.touches.list)
+		        {
+			        if (touch.justPressed)
+			        {
+			                canSkip = false;
+			                onEndReached.dispatch();
+					//break; do we need to break? idk
+			        }
+		        }
+		}
+	}
 }
 #end
