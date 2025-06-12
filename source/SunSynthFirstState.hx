@@ -215,6 +215,10 @@ class SunSynthFirstState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		var justTouched:Bool = false;
+ 		for (touch in FlxG.touches.list)
+ 			if (touch.justPressed)
+ 				justTouched = true;
 		super.update(elapsed);
 
 		colorShader.color1 = colorTween1.color;
@@ -222,7 +226,7 @@ class SunSynthFirstState extends MusicBeatState
 
 		if (allowInput)
 		{
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || justTouched)
 			{
 				if (!dialogueEnded)
 				{
