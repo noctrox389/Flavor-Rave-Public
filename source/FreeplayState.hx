@@ -248,6 +248,9 @@ class FreeplayState extends MusicBeatState
 		modiOpti.updateHitbox();
 		add(modiOpti);
 
+		#if mobile
+		addVirtualPad(LEFT_RIGHT,A_B_C_X_Y);
+		#end
 		super.create();
 	}
 
@@ -298,12 +301,12 @@ class FreeplayState extends MusicBeatState
 		if (FlxG.sound.music.volume < 0.7 && acceptInput)
 			FlxG.sound.music.volume += 0.5 * elapsed;
 
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
-		var accepted = controls.ACCEPT;
+		var upP = controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end;
+		var downP = controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end;
+		var accepted = controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end;
 		var space = FlxG.keys.justPressed.SPACE;
-		var ctrl = FlxG.keys.justPressed.CONTROL;
-		var mbutt = FlxG.keys.justPressed.M;
+		var ctrl = FlxG.keys.justPressed.CONTROL #if mobile || _virtualpad.buttonC.justPressed #end;
+		var mbutt = FlxG.keys.justPressed.M #if mobile || _virtualpad.buttonY.justPressed #end;
 
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
@@ -323,7 +326,7 @@ class FreeplayState extends MusicBeatState
 					holdTime = 0;
 				}
 
-				if(controls.UI_DOWN || controls.UI_UP)
+				if(controls.UI_DOWN || controls.UI_UP #if mobile || _virtualpad.buttonDown.pressed || _virtualpad.buttonUp.pressed #end)
 				{
 					var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 					holdTime += elapsed;
@@ -331,7 +334,7 @@ class FreeplayState extends MusicBeatState
 
 					if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
 					{
-						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP #if mobile || _virtualpad.buttonUp.pressed #end ? -shiftMult : shiftMult));
 						changeDiff();
 					}
 				}
@@ -374,7 +377,7 @@ class FreeplayState extends MusicBeatState
 				changeDiff(1);
 			else if (upP || downP) changeDiff();
 			
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.pressed #end)
 			{
 				persistentUpdate = false;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -440,7 +443,7 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				openSubState(new CharaSelect('freeplay', songs[curSelected].charaSelect.copy(), songs[curSelected].songName, 0, songs[curSelected].force1P));
 			}
-			else if(controls.RESET)
+			else if(controls.RESET #if mobile || _virtualpad.buttonX.pressed #end)
 			{
 				persistentUpdate = false;
 				var type:String = "";
