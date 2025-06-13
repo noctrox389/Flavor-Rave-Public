@@ -224,6 +224,9 @@ class FlavorpediaSideState extends MusicBeatState
 			changeItem();
 		});
 
+		#if mobile
+		addVirtualPad(FULL,A_B);
+		#end
 		super.create();
 	}
 
@@ -234,34 +237,34 @@ class FlavorpediaSideState extends MusicBeatState
 		if (allowInput)
 		{
 			//Have to make this a else if loop to prevent frame perfect inputs and breaking the menu
-			if (controls.UI_LEFT_P)
+			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 			{
 				allowInput = false;
 				changeItem(-1, true);
 			}
-			else if (controls.UI_RIGHT_P)
+			else if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 			{
 				allowInput = false;
 				changeItem(1, true);
 			}
-			else if (controls.UI_UP_P)
+			else if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 			{
 				allowInput = false;
 				changeItem(-4, true);
 			}
-			else if (controls.UI_DOWN_P)
+			else if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 			{
 				allowInput = false;
 				changeItem(4, true);
 			}
 
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new FlavorpediaSelectorState());
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 			{
 				if ((charaStuff[curSelected][0] == 'jorge' || charaStuff[curSelected][0] == 'richard') && FlxG.keys.pressed.G)
 				{
