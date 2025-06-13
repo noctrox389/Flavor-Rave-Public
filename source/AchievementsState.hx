@@ -122,6 +122,9 @@ class AchievementsState extends MusicBeatState
 			changeItem();
 		});
 
+		#if mobile
+		addVirtualPad(UP_DOWN,B);
+		#end
 		super.create();
 	}
 
@@ -134,15 +137,15 @@ class AchievementsState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UI_RIGHT_P || controls.BACK)
+			if (controls.UI_RIGHT_P || controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 				leaveState();
 
-			if (controls.UI_UP_P)
+			if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 			{
 				changeItem(-1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 			}
-			if (controls.UI_DOWN_P)
+			if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 			{
 				changeItem(1);
 				FlxG.sound.play(Paths.sound('scrollMenu'));
