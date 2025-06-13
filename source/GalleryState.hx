@@ -126,6 +126,9 @@ class GalleryState extends MusicBeatState
 			changeItem();
 		});
 
+		#if mobile
+		addVirtualPad(FULL,A_B);
+		#end
 		super.create();
 	}
 
@@ -136,7 +139,7 @@ class GalleryState extends MusicBeatState
 
 		if (canPressButtons)
 		{
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				canPressButtons = false;
 				if (!inGallery)	MusicBeatState.switchState(new MainMenuState());
@@ -147,25 +150,25 @@ class GalleryState extends MusicBeatState
 				FlxTween.tween(switchState, {"scale.x": 1,"scale.y": 1}, 0.1, {ease: FlxEase.sineOut});
 			}
 
-			if (controls.UI_UP_P && !inGallery)
+			if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end && !inGallery)
 				changeItem(-1);
 
-			if (controls.UI_DOWN_P && !inGallery)
+			if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end && !inGallery)
 				changeItem(1);
 	
-			if (controls.UI_LEFT_P && inGallery)
+			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end && inGallery)
 				changeGalleryItem(-1, 0);
 	
-			if (controls.UI_RIGHT_P && inGallery)
+			if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end && inGallery)
 				changeGalleryItem(1, 1);
 	
-			if (controls.ACCEPT && inGallery && galleryData[curGallSelected].url != null)
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end && inGallery && galleryData[curGallSelected].url != null)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				CoolUtil.browserLoad(galleryData[curGallSelected].url);
 			}
 
-			if (controls.ACCEPT && !inGallery)
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end && !inGallery)
 			{
 				loadGallState(curSelected == 0);
 			}
