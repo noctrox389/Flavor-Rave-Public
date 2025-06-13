@@ -314,6 +314,9 @@ class MainMenuState extends MusicBeatState
 			synthLoop();
 		});
 
+		#if mobile
+		addVirtualPad(FULL,A_B);
+		#end
 		super.create();
 	}
 
@@ -333,25 +336,25 @@ class MainMenuState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UI_UP_P)
+			if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 
-			if (controls.UI_DOWN_P)
+			if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
 
-			if (controls.UI_RIGHT_P)
+			if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 				totheSunSynthState();
 
-			if (controls.UI_LEFT_P)
+			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 				totheAchievementState();
 
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				selectedSomethin = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -359,7 +362,7 @@ class MainMenuState extends MusicBeatState
 				MusicBeatState.switchState(new TitleState());
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 			{
 				selectItem();
 			}
