@@ -76,6 +76,9 @@ class FlavorpediaSelectorState extends MusicBeatState
 			allowInput = true;
 		});
 
+		#if mobile
+		addVirtualPad(LEFT_RIGHT,A_B);
+		#end
 		super.create();
 	}
 
@@ -86,19 +89,19 @@ class FlavorpediaSelectorState extends MusicBeatState
 
 		if (allowInput)
 		{
-			if (controls.UI_LEFT_P)
+			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 
-			if (controls.UI_RIGHT_P)
+			if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				switch(curSelected)
@@ -110,7 +113,7 @@ class FlavorpediaSelectorState extends MusicBeatState
 				}
 			}
 
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				MusicBeatState.switchState(new MainMenuState());
