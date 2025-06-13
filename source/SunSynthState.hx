@@ -221,6 +221,9 @@ class SunSynthState extends MusicBeatState
 			loadDialogueJSon('base');
 		});
 
+		#if mobile
+		addVirtualPad(UP_DOWN,A_B);
+		#end
 		super.create();
 	}
 
@@ -236,21 +239,21 @@ class SunSynthState extends MusicBeatState
 		{
 			if (choicerStuff.length >= 1)
 			{
-				if (controls.ACCEPT)
+				if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 				{
 					selectItem();
 				}
-				else if (controls.UI_UP_P)
+				else if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(-1);
 				}
-				else if (controls.UI_DOWN_P)
+				else if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 					changeItem(1);
 				}
-				else if (controls.BACK && letmeout)
+				else if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end && letmeout)
 				{
 					if (!inBaseChoicer)
 					{
@@ -301,7 +304,7 @@ class SunSynthState extends MusicBeatState
 			}
 			else 
 			{
-				if (controls.ACCEPT || ClientPrefs.menuMouse && FlxG.mouse.justPressed)
+				if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end || ClientPrefs.menuMouse && FlxG.mouse.justPressed)
 				{
 					if (!dialogueEnded)
 					{
@@ -321,7 +324,7 @@ class SunSynthState extends MusicBeatState
 				}
 			}
 
-			if (controls.BACK && !letmeout && allowEscape)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end && !letmeout && allowEscape)
 			{
 				backToMainChoicer();
 			}
