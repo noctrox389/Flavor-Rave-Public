@@ -79,6 +79,7 @@ class GameplayChangersSubState extends MusicBeatSubstate
 		{
 			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
+			    	_virtualpad.visible = false;
 				acceptInput = false;
 				exitState();
 			}
