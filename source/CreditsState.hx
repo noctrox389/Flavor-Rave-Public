@@ -134,6 +134,9 @@ class CreditsState extends MusicBeatState
 		modRoleText.text = Language.flavor.get("credits_" + rolelist[curPage], rolelist[curPage]);
 		add(modRoleText);
 
+		#if mobile
+		addVirtualPad(FULL,A_B);
+		#end
 		super.create();
 	}
 
@@ -148,31 +151,31 @@ class CreditsState extends MusicBeatState
 
 		if (!selectedSomethin)
 		{
-			if (controls.UI_UP_P)
+			if (controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(-1);
 			}
 
-			if (controls.UI_DOWN_P)
+			if (controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeItem(1);
 			}
 
-			if (controls.UI_LEFT_P)
+			if (controls.UI_LEFT_P #if mobile || _virtualpad.buttonLeft.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changePage(-1);
 			}
 
-			if (controls.UI_RIGHT_P)
+			if (controls.UI_RIGHT_P #if mobile || _virtualpad.buttonRight.justPressed #end)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				changePage(1);
 			}
 			
-			if (controls.ACCEPT)
+			if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 			{
 				if (creditsStuff[curSelected][0] == 'Jorge - SunSpirit' && FlxG.keys.pressed.G)
 				{
@@ -184,7 +187,7 @@ class CreditsState extends MusicBeatState
 				}
 			}
 
-			if (controls.BACK)
+			if (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end)
 			{
 				selectedSomethin = true;
 				curPage = 0;
