@@ -1,6 +1,14 @@
 {
 	"peeps": [
 		{
+			"realName": "Heropowerbrine",
+			"iconName": "Hero",
+			"description": "Ported this mod\n(and a bunch of other mods)",
+			"color": [55,166,64],
+			"twitter": "https://www.youtube.com/c/Heropowerbrine",
+			"whichrole": "Android Porter"
+		},
+		{
 			"realName": "SirDusterBuster",
 			"iconName": "duster",
 			"description": "Project Director,\nTeam TBD Lead,\nDialogue / Writing",
