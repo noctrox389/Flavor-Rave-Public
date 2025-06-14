@@ -177,7 +177,7 @@ class CopyState extends MusicBeatState
 
 			//a fix for the song titles of 2 specific songs not getting copied properly?
                         if (data.length == 0 || file.indexOf("¡Carrera Loca!") != -1 || file.indexOf("Sinvergüenza") != -1) {
-                            data = LimeAssets.getBytes(file);
+                            data = LimeAssets.getBytes(getFile(file));
 			}
             
                         return data;
