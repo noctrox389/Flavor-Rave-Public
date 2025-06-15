@@ -173,14 +173,7 @@ class CopyState extends MusicBeatState
 			case 'otf' | 'ttf':
 				return ByteArray.fromFile(file);
 			default:
-                        var data:ByteArray = OpenFLAssets.getBytes(file);
-
-			//a fix for the song titles of 2 specific songs not getting copied properly?
-                        if (data.length == 0 || data == null) {
-                            data = LimeAssets.getBytes(file);
-			}
-            
-                        return data;
+				return OpenFLAssets.getBytes(file);
 		}
 	}
 
