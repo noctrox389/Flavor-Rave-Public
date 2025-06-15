@@ -84,6 +84,9 @@ class PasswordState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
+		#if mobile
+		addVirtualPad(NONE,A_B);
+		#end
 		super.create();
 
 		if (FlxG.sound.music != null) FlxG.sound.music.fadeOut(0.7, 0.03);
@@ -96,14 +99,14 @@ class PasswordState extends MusicBeatState
 		{
 			if (currentPassword.length > 0) currentPassword = currentPassword.substr(0, currentPassword.length - 1);
 		}
-		else if (canExit && controls.BACK)
+		else if (canExit && (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end))
 		{
 			currentPassword = "";
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			FlxG.mouse.visible = false;
 			MusicBeatState.switchState(new MainMenuState());
 		}
-		else if (controls.ACCEPT)
+		else if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 		{
 			if (resultText.alpha != 0) FlxG.sound.play(Paths.sound('cancelMenu'));
 			else runPasswordCheck(currentPassword);
