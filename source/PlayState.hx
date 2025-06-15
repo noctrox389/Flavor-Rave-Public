@@ -1664,8 +1664,13 @@ class PlayState extends MusicBeatState
 		var ret:Dynamic = callOnLuas('onStartCountdown', [], false);
 
 		if(ret != FunkinLua.Function_Stop) {
-			hasTitleCard = Paths.fileExists('images/titlecard/${curSong}.png', IMAGE);
-
+			if (curSong == "¡Carrera Loca!" || curSong == "Sinvergüenza")
+			{
+				hasTitleCard = true;
+			}else{
+				hasTitleCard = Paths.fileExists('images/titlecard/${curSong}.png', IMAGE);
+			}
+			
 			if (skipCountdown || hasTitleCard || startOnTime > 0) skipArrowStartTween = true;
 
 			generateStaticArrows(0);
