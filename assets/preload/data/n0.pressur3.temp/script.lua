@@ -224,26 +224,6 @@ function thingie(num)
 		doTweenAlpha('sun3D', 'sun3D', 1, 1);
 		setProperty('defaultCamZoom', 1);
 	end
-	if num == 1664 then
-		doTweenY('barTop', 'barTop', -102, 1, "circinout");
-		doTweenY('barBottom', 'barBottom', 822, 1, "circinout");
-		setProperty('bg3d.alpha', 0);
-		setProperty('3dbgfloor.alpha', 0);
-		setProperty('3dmark.alpha', 0);
-		setProperty('synsuntext.alpha', 0);
-		setProperty('synsuntext2.alpha', 0);
-		setProperty('syn3D.alpha', 0);
-		setProperty('sun3D.alpha', 0);
-		
-		playAnim('SynSunEnd', 'idle', true);
-		setProperty('SynSunEnd.alpha', 1);
-		doTweenAlpha('camHUD', 'camHUD', 0, 2, 'circout')
-	end
-	if num == 1728 then 
-		setProperty('liveIcon.alpha', 0);
-		setProperty('likes.alpha', 0);
-		setProperty('SynSunEndDrawn.alpha', 1);
-	end
 end
 
 function onMoveCamera(focus)
@@ -276,5 +256,27 @@ function onBeatHit()
 		playAnim('likes', 'maxlikes');
 	end
 
+    function onStepHit()
+        if curStep == 1664 then
+		doTweenY('barTop', 'barTop', -102, 1, "circinout");
+		doTweenY('barBottom', 'barBottom', 822, 1, "circinout");
+		setProperty('bg3d.alpha', 0);
+		setProperty('3dbgfloor.alpha', 0);
+		setProperty('3dmark.alpha', 0);
+		setProperty('synsuntext.alpha', 0);
+		setProperty('synsuntext2.alpha', 0);
+		setProperty('syn3D.alpha', 0);
+		setProperty('sun3D.alpha', 0);
+		
+		playAnim('SynSunEnd', 'idle', true);
+		setProperty('SynSunEnd.alpha', 1);
+		doTweenAlpha('camHUD', 'camHUD', 0, 2, 'circout')
+	    end
+	    if curStep == 1728 then 
+		setProperty('liveIcon.alpha', 0);
+		setProperty('likes.alpha', 0);
+		setProperty('SynSunEndDrawn.alpha', 1);
+	    end
+	end
 end
 
