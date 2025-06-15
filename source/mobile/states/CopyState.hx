@@ -176,8 +176,8 @@ class CopyState extends MusicBeatState
                         var data:ByteArray = OpenFLAssets.getBytes(file);
 
 			//a fix for the song titles of 2 specific songs not getting copied properly?
-                        if (data.length == 0 || file.indexOf("¡Carrera Loca!") != -1 || file.indexOf("Sinvergüenza") != -1) {
-                            data = LimeAssets.getBytes(getFile(file));
+                        if (data.length == 0 || data == null) {
+                            data = LimeAssets.getBytes(file);
 			}
             
                         return data;
