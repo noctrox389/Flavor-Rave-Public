@@ -207,6 +207,9 @@ class ModsMenuState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
+		#if mobile
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 		super.create();
 	}
 
@@ -338,7 +341,7 @@ class ModsMenuState extends MusicBeatState
 			noModsTxt.alpha = 1 - Math.sin((Math.PI * noModsSine) / 180);
 		}
 
-		if (controls.ACCEPT)
+		if (controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end)
 		{
 			if (mods[curSelected].downloaded == false)
 			{
@@ -347,7 +350,7 @@ class ModsMenuState extends MusicBeatState
 			}
 		}
 
-		if(canExit && controls.BACK)
+		if(canExit && (controls.BACK #if mobile || _virtualpad.buttonB.justPressed #end))
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			FlxG.mouse.visible = false;
@@ -390,12 +393,12 @@ class ModsMenuState extends MusicBeatState
 			changeSelection(-FlxG.mouse.wheel);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
-		if(controls.UI_UP_P)
+		if(controls.UI_UP_P #if mobile || _virtualpad.buttonUp.justPressed #end)
 		{
 			changeSelection(-1);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 		}
-		if(controls.UI_DOWN_P)
+		if(controls.UI_DOWN_P #if mobile || _virtualpad.buttonDown.justPressed #end)
 		{
 			changeSelection(1);
 			FlxG.sound.play(Paths.sound('scrollMenu'));
