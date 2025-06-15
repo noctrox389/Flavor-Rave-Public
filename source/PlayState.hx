@@ -1707,7 +1707,14 @@ class PlayState extends MusicBeatState
 			if (hasTitleCard)
 			{
 				titleCard = new FlxSprite();
-				titleCard.frames = Paths.getSparrowAtlas('titlecard/${curSong}');
+				if (curSong == "¡Carrera Loca!")
+				{
+					titleCard.frames = Paths.getSparrowAtlas('titlecard/Carrera Loca');
+				} else if (curSong == "Sinvergüenza") {
+					titleCard.frames = Paths.getSparrowAtlas('titlecard/Sinverguenza');
+				} else {
+					titleCard.frames = Paths.getSparrowAtlas('titlecard/${curSong}');
+				}
 				titleCard.animation.addByPrefix('idle', 'card', 24, false);
 				titleCard.antialiasing = ClientPrefs.globalAntialiasing;
 				titleCard.cameras = [camHUD];
