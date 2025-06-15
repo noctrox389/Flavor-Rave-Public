@@ -249,7 +249,7 @@ class FreeplayState extends MusicBeatState
 		add(modiOpti);
 
 		#if mobile
-		addVirtualPad(UP_DOWN,A_B_C_X_Y);
+		addVirtualPad(UP_DOWN,A_B_C_X);
 		#end
 		super.create();
 	}
@@ -306,7 +306,7 @@ class FreeplayState extends MusicBeatState
 		var accepted = controls.ACCEPT #if mobile || _virtualpad.buttonA.justPressed #end;
 		var space = FlxG.keys.justPressed.SPACE;
 		var ctrl = FlxG.keys.justPressed.CONTROL #if mobile || _virtualpad.buttonC.justPressed #end;
-		var mbutt = FlxG.keys.justPressed.M #if mobile || _virtualpad.buttonY.justPressed #end;
+		var mbutt = FlxG.keys.justPressed.M #if mobile || _virtualpad.buttonX.justPressed #end;
 
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
@@ -444,7 +444,7 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				openSubState(new CharaSelect('freeplay', songs[curSelected].charaSelect.copy(), songs[curSelected].songName, 0, songs[curSelected].force1P));
 			}
-			else if(controls.RESET #if mobile || _virtualpad.buttonX.pressed #end)
+			else if(controls.RESET)
 			{
 				persistentUpdate = false;
 				var type:String = "";
