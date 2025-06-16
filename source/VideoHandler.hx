@@ -1,11 +1,8 @@
 #if VIDEOS_ALLOWED
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
-import flixel.input.IFlxInputManager;
 import hxvlc.flixel.FlxVideo;
 import openfl.events.KeyboardEvent;
-import openfl.events.TouchEvent;
-import haxe.Timer;
 
 class VideoHandler extends FlxVideo
 {
@@ -25,14 +22,12 @@ class VideoHandler extends FlxVideo
 	override public function load(location:String, ?options:Array<String>):Bool
 	{
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(TouchEvent.TOUCH_BEGIN, onScreenPress);
 		return super.load(location, options);
 	}
 
 	override public function dispose():Void
 	{
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.removeEventListener(TouchEvent.TOUCH_BEGIN, onScreenPress);
 		super.dispose();
 	}
 
@@ -46,23 +41,6 @@ class VideoHandler extends FlxVideo
 			canSkip = false;
 			onEndReached.dispatch();
 		}
-	}
-	private function onScreenPress(event:TouchEvent):Void
-	{
-		if (!canSkip) 
-			return;
-		canSkip = false;
-		flushInputs();
-		onEndReached.dispatch();
-	}
-	private function flushInputs():Void
-	{
-	    for (manager in FlxG.inputs.list)
-	        (cast manager : IFlxInputManager).reset();
-
-	    Timer.delay(function() {
-	        onEndReached.dispatch();
-	    }, 0);
 	}
 }
 #end
