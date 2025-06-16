@@ -95,6 +95,16 @@ class PasswordState extends MusicBeatState
 	override function update(elapsed)
 	{
 		super.update(elapsed);
+		 if (FlxG.mouse.justPressed)
+		{
+			var px = FlxG.mouse.x;
+			var py = FlxG.mouse.y;
+			if (px > inputField.x && px < inputField.x + inputField.width
+			        && py > inputField.y && py < inputField.y + inputField.height)
+			{
+			        FlxG.stage.window.textInputEnabled = true;
+			}
+		}
 		if (FlxG.keys.justPressed.BACKSPACE)
 		{
 			if (currentPassword.length > 0) currentPassword = currentPassword.substr(0, currentPassword.length - 1);
@@ -145,6 +155,7 @@ class PasswordState extends MusicBeatState
 		// Many secrets to discover...
 		// All but one won't be given to you so easily...
 		// Good luck finding the rest of them source code viewer.
+		// Are you challenging me? - Hero
 		switch(pass)
 		{
 			case "GOKU":
