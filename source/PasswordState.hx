@@ -93,8 +93,8 @@ class PasswordState extends MusicBeatState
 		#end
 		super.create();
 
-		FlxG.stage.window.addEventListener(KeyboardEvent.KEY_DOWN, onAnyKeyDown);
-		FlxG.stage.window.addEventListener(TextEvent.TEXT_INPUT, onTextInput);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onAnyKeyDown);
+		FlxG.stage.addEventListener(TextEvent.TEXT_INPUT, onTextInput);
 		if (FlxG.sound.music != null) FlxG.sound.music.fadeOut(0.7, 0.03);
 	}
 
