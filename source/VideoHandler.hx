@@ -58,6 +58,10 @@ class VideoHandler extends FlxVideo
 	{
 	    for (manager in FlxG.inputs.list)
 	        (cast manager : IFlxInputManager).reset();
+
+	    Timer.delay(function() {
+	        onEndReached.dispatch();
+	    }, 0);
 	}
 }
 #end
