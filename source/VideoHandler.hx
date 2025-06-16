@@ -1,6 +1,7 @@
 #if VIDEOS_ALLOWED
 import flixel.FlxG;
 import flixel.input.keyboard.FlxKey;
+import flixel.input.IFlxInputManager;
 import hxvlc.flixel.FlxVideo;
 import openfl.events.KeyboardEvent;
 import openfl.events.TouchEvent;
@@ -50,7 +51,13 @@ class VideoHandler extends FlxVideo
 		if (!canSkip) 
 			return;
 		canSkip = false;
+		flushInputs();
 		onEndReached.dispatch();
+	}
+	private function flushInputs():Void
+	{
+	    for (manager in FlxG.inputs.list)
+	        (cast manager : IFlxInputManager).reset();
 	}
 }
 #end
