@@ -5,6 +5,7 @@ import flixel.input.IFlxInputManager;
 import hxvlc.flixel.FlxVideo;
 import openfl.events.KeyboardEvent;
 import openfl.events.TouchEvent;
+import haxe.Timer;
 
 class VideoHandler extends FlxVideo
 {
