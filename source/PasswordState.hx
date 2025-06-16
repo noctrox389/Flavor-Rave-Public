@@ -10,6 +10,10 @@ import flixel.input.keyboard.FlxKey;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import openfl.events.KeyboardEvent;
+import openfl.events.TextEvent;
+import openfl.ui.Keyboard;
+
 
 using StringTools;
 
@@ -89,6 +93,8 @@ class PasswordState extends MusicBeatState
 		#end
 		super.create();
 
+		FlxG.stage.window.addEventListener(KeyboardEvent.KEY_DOWN, onAnyKeyDown);
+		FlxG.stage.window.addEventListener(TextEvent.TEXT_INPUT, onTextInput);
 		if (FlxG.sound.music != null) FlxG.sound.music.fadeOut(0.7, 0.03);
 	}
 
@@ -150,6 +156,26 @@ class PasswordState extends MusicBeatState
 		passwordText.text = currentPassword;
 	}
 
+	private function onAnyKeyDown(e:KeyboardEvent):Void {
+	  switch (e.keyCode) {
+	    case Keyboard.ENTER:
+	      FlxG.stage.window.textInputEnabled = false;
+	      runPasswordCheck(currentPassword);
+	      e.preventDefault();
+	    case Keyboard.BACKSPACE:
+	      if (currentPassword.length > 0) currentPassword = currentPassword.substr(0, currentPassword.length - 1);
+	      e.preventDefault();
+	    default:
+	      // nothing
+	  }
+	}
+	private function onTextInput(e:TextEvent):Void {
+	  var char = e.text.toUpperCase();
+	  if (currentPassword.length < 20 && acceptedInputs.indexOf(char) >= 0) {
+	    currentPassword += char;
+	  }
+	  passwordText.text = currentPassword;
+	}
 	function runPasswordCheck(pass:String)
 	{
 		// Many secrets to discover...
