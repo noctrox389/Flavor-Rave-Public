@@ -338,6 +338,10 @@ class TitleState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		var justTouched:Bool = false;
+ 		for (touch in FlxG.touches.list)
+ 			if (touch.justPressed)
+ 				justTouched = true;
 		angleShit1 += 0.01 / FramerateTools.timeMultiplier();
 
 		if (light1 != null && light2 != null)
@@ -359,9 +363,9 @@ class TitleState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			Conductor.songPosition = FlxG.sound.music.time;
 
-		var pressedEnter:Bool = canInput && (FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed && ClientPrefs.menuMouse);
+		var pressedEnter:Bool = canInput && (justTouched || FlxG.keys.justPressed.ENTER || controls.ACCEPT || FlxG.mouse.justPressed && ClientPrefs.menuMouse);
 
-		#if mobile
+		/*#if mobile
 		for (touch in FlxG.touches.list)
 		{
 			if (touch.justPressed)
@@ -369,7 +373,7 @@ class TitleState extends MusicBeatState
 				pressedEnter = true;
 			}
 		}
-		#end
+		#end*/
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
