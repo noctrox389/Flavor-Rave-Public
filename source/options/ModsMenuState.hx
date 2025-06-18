@@ -207,10 +207,10 @@ class ModsMenuState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
+		super.create();
 		#if mobile
 		addVirtualPad(UP_DOWN, A_B);
 		#end
-		super.create();
 	}
 
 	function loadDLCGraphics(newMod:ModMetadata, ?skipIcon:Bool = false)
