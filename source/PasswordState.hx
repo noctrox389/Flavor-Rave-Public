@@ -187,6 +187,72 @@ class PasswordState extends MusicBeatState
 			case "GOKU":
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				CoolUtil.browserLoad("https://www.youtube.com/watch?v=0MW9Nrg_kZU");
+			case "MONIKA":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("STILL THE BEST GIRL.");
+			case "SOUR":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("STILL TOPPING ENZYNC CITY CHARTS");
+			case "SWEET":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("'SHE HAS A LOT TO LEARN... AND OTHERS HAVE A LOT TO LEARN FROM HER'");
+			case "SHOWMAN":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("CLASSIFIED INFORMATION.");
+			case "SAVORY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("'JUST WAIT UNTIL 'HE' FINDS OUT WHERE YOU'VE BEEN.'");
+			case "UMAMI":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("SOON TO-BE COLLEGE GRADUATE");
+			case "SPICY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("CURRENTLY SEEKING ANSWERS TO HER NEW ABILITIES");
+			case "SMOKY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("'...AN ETERNAL LONER.'");
+			case "SUNDRIED":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("'A REFRESHING INNOCENCE IN A HECTIC WORLD.'");
+			case "RIKA":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("'WON'T CATCH ME DEAD OR ALIVE'");
+			case "NIKKU":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("FURTHER RESEARCH REQUIRED");
+			case "DAISY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("FURTHER RESEARCH REQUIRED");
+			case "TORRENT":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("[ANTI VIRUS HAS BLOCKED THIS REQUEST]");
+			case "NITRO":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("[ANTI VIRUS HAS BLOCKED THIS REQUEST]");
+			case "TANGY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("LOCATION UNKNOWN SINCE 'THAT NIGHT'");
+			case "SALTY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("CONSISTENTLY EVADING THE COAST GUARD");
+			case "BITTER":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("A GLASS HALF EMPTY, SPILLING FURTHER AND FURTHER.");
+			case "ACE":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("LET'S CHILL!");
+			case "FUNKY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("[DATA SCRUBBED]");
+			case "SAUCY":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("[DATA SCRUBBED]");
+			case "TBDTAN":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("'GOTTA SCRUB THEIR DATA... I DON'T WANNA BREAK CANON...'");
+			case "LIBITINA":
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				queueText("WRONG MOD");
 			case "":
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				queueText("FIELD CANNOT BE EMPTY");
