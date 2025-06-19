@@ -45,6 +45,7 @@ import haxe.zip.Writer;*/
 
 class ModsMenuState extends MusicBeatState
 {
+	private var uiLayer:FlxSpriteGroup;
 	var mods:Array<ModMetadata> = [];
 
 	var bg:FlxSprite;
@@ -209,9 +210,11 @@ class ModsMenuState extends MusicBeatState
 
 		super.create();
 		#if mobile
+		uiLayer = new FlxSpriteGroup();
+                uiLayer.scrollFactor.set();
+                add(uiLayer);
 		addVirtualPad(UP_DOWN, A_B);
-		remove(_virtualpad);
-		add(_virtualpad);
+		uiLayer.add(_virtualpad);
 		#end
 	}
 
