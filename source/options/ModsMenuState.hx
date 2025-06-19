@@ -210,7 +210,8 @@ class ModsMenuState extends MusicBeatState
 		super.create();
 		#if mobile
 		addVirtualPad(UP_DOWN, A_B);
-		bringPadToFront();
+		remove(_virtualpad);
+		add(_virtualpad);
 		#end
 	}
 
@@ -462,15 +463,6 @@ class ModsMenuState extends MusicBeatState
 			}
 			i++;
 		}
-	}
-
-	function bringPadToFront()
-	{
-	    for (button in _virtualpad.getAllButtons())
-	    {
-	        remove(button);
-	        add(button);
-	    }
 	}
 
 	function updatePosition(elapsed:Float = -1)
