@@ -210,11 +210,7 @@ class ModsMenuState extends MusicBeatState
 
 		super.create();
 		#if mobile
-		uiLayer = new FlxSpriteGroup();
-                uiLayer.scrollFactor.set();
-                add(uiLayer);
 		addVirtualPad(UP_DOWN, A_B);
-		uiLayer.add(_virtualpad);
 		#end
 	}
 
