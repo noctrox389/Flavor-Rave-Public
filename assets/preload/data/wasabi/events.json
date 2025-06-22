@@ -427,16 +427,6 @@
 				]
 			],
 			[
-				120000,
-				[
-					[
-						"Call on Luas",
-						"thingie",
-						"1120"
-					]
-				]
-			],
-			[
 				121607.142857143,
 				[
 					[
@@ -453,11 +443,6 @@
 						"Screen Flash",
 						"0.3",
 						"white"
-					],
-					[
-						"Call on Luas",
-						"thingie",
-						"1136"
 					]
 				]
 			],
@@ -483,11 +468,6 @@
 						"Change Camera Zoom",
 						"0.7",
 						"0.1"
-					],
-					[
-						"Call on Luas",
-						"thingie",
-						"1392"
 					]
 				]
 			],
