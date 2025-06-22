@@ -121,6 +121,35 @@ function onStepHit()
 		setProperty('camFollow.y', 317);
 		setProperty('camFollow.x', 670);
 	end
+		if curStep== 1120 then
+		funkyBumps = 1;
+		doTweenAlpha('moon', 'moon', 1, 2);
+		playAnim('trans', 'normal');
+	end
+	if curStep == 1136 then
+		setProperty('SkyMono.alpha', 1);
+		setProperty('BGCityMono.alpha', 1);
+		setProperty('RoadMono.alpha', 1);
+		setProperty('LeftBuildingsMono.alpha', 1);
+		setProperty('RightBuildingsMono.alpha', 1);
+		runHaxeCode('game.boyfriend.setColorTransform(1, 1, 1, 1, 0, 0, 0, 0);')
+		runHaxeCode('game.dad.setColorTransform(1, 1, 1, 1, 0, 0, 0, 0);')
+		setProperty('boyfriend.color', 0x00000000);
+		setProperty('dad.color', 0x00000000);
+		funkyBumps = 2;
+	end
+	if curStep == 1392 then
+		setProperty('black.alpha', 0);
+		setProperty('moon.alpha', 0);
+		setProperty('SkyMono.alpha', 0.0001);
+		setProperty('BGCityMono.alpha', 0.0001);
+		setProperty('RoadMono.alpha', 0.0001);
+		setProperty('LeftBuildingsMono.alpha', 0.0001);
+		setProperty('RightBuildingsMono.alpha', 0.0001);
+		setProperty('isCameraOnForcedPos', false);
+		setProperty('boyfriend.color', 0xFFFFFF);
+		setProperty('dad.color', 0xFFFFFF);
+	end
 end
 
 function thingie(num)
@@ -248,35 +277,6 @@ function thingie(num)
 	end
 	if num == 1072 then
 		doTweenAlpha('boyfriend', 'boyfriend', 1, 2);
-	end
-	if num == 1120 then
-		funkyBumps = 1;
-		doTweenAlpha('moon', 'moon', 1, 2);
-		playAnim('trans', 'normal');
-	end
-	if num == 1136 then
-		setProperty('SkyMono.alpha', 1);
-		setProperty('BGCityMono.alpha', 1);
-		setProperty('RoadMono.alpha', 1);
-		setProperty('LeftBuildingsMono.alpha', 1);
-		setProperty('RightBuildingsMono.alpha', 1);
-		runHaxeCode('game.boyfriend.setColorTransform(1, 1, 1, 1, 0, 0, 0, 0);')
-		runHaxeCode('game.dad.setColorTransform(1, 1, 1, 1, 0, 0, 0, 0);')
-		setProperty('boyfriend.color', 0x00000000);
-		setProperty('dad.color', 0x00000000);
-		funkyBumps = 2;
-	end
-	if num == 1392 then
-		setProperty('black.alpha', 0);
-		setProperty('moon.alpha', 0);
-		setProperty('SkyMono.alpha', 0.0001);
-		setProperty('BGCityMono.alpha', 0.0001);
-		setProperty('RoadMono.alpha', 0.0001);
-		setProperty('LeftBuildingsMono.alpha', 0.0001);
-		setProperty('RightBuildingsMono.alpha', 0.0001);
-		setProperty('isCameraOnForcedPos', false);
-		setProperty('boyfriend.color', 0xFFFFFF);
-		setProperty('dad.color', 0xFFFFFF);
 	end
 end
 
