@@ -37,7 +37,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 
 		var option:Option = new Option('Fullscreen',
-			'If checked, makes the game take up the entire screen.',
+			'If checked, makes the game take up the entire screen.(made for PC, try not to use this if mobile)',
 			'fullscreen',
 			'bool',
 			false);
